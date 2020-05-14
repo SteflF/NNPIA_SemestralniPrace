@@ -16,7 +16,7 @@ class ProductListItem extends React.Component<IProductListItemProps>{
             <div className="col-lg-4 col-md-6 mb-4">
                 <div className="card h-100">
                     <a>
-                        <img className="card-img-top" src="https://picsum.photos/700/400" alt="" />
+                        <img className="card-img-top p-1" src={product.photo} alt=""  />
                     </a>
                     <div className="card-body">
                         <h4 className="card-title">

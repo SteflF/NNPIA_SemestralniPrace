@@ -6,7 +6,7 @@ class CarouselIndicators extends React.Component{
     render() {
         return(
             <div className="my-4">
-                <Carousel showThumbs={false} showStatus={false}>
+                <Carousel showThumbs={false} showStatus={false} autoPlay={true} infiniteLoop={true}>
                     <div>
                         <img src="https://picsum.photos/900/350" />
                     </div>

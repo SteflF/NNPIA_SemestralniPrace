@@ -35,7 +35,7 @@ class ProductDetail extends React.Component<ProductDetailProps>{
             return(
                 <div className="col-lg-9">
                     <div className="card mt-4">
-                        <img className="card-img-top img-fluid" src="https://picsum.photos/900/400" alt="" />
+                        <img className="card-img-top img-fluid p-1" src={product.photo.toString()} alt="" />
                         <div className="card-body">
                             <h3 className="card-title">{product.name}</h3>
                             <h4>{product.price} Kč</h4>

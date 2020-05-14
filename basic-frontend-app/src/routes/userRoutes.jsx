@@ -7,6 +7,7 @@ import LoginComponent from "../component/user/LoginComponent";
 import ProductList from "../component/user/components/productList";
 import UserLayout from "../component/userLayout";
 import ProductDetail from "../component/user/components/productDetail";
+import ProductCategoryList from "../component/user/components/productCategoryList";
 
 const UserRoutes = () => {
     return(
@@ -18,8 +19,11 @@ const UserRoutes = () => {
                 <Route path="/edit-user" component={EditUserComponent} />
 
                 <UserLayout>
-                    <Route path="/product/:id" component={ProductDetail} />
-                    <Route path="/products" component={ProductList} />
+                    <Route exact path="/products/cpu" component={ProductCategoryList} />
+                    <Route exact path="/products/gpu" component={ProductCategoryList} />
+                    <Route exact path="/products/motherboard" component={ProductCategoryList} />
+                    <Route exact path="/product/:id" component={ProductDetail} />
+                    <Route exact path="/products" component={ProductList} />
                 </UserLayout>
             </Switch>
         </Router>

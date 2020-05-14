@@ -1,11 +1,11 @@
 insert into PRODUCT (ID, CATEGORY, DESCRIPTION, NAME, PHOTO, PRICE)
 values
-('1', 'GPU', 'Graficka karta NVIDIA', 'RTX 2070 SUPER', 'fotka', '12999.99'),
-('2', 'GPU', 'Graficka karta AMD', 'RX 5700 XT', 'fotkaRX', '11999'),
-('3', 'CPU', 'Procesor AMD', 'Ryzen 7 3700X', 'fotoRyzen', '8699'),
-('4', 'CPU', 'Procesor Intel', 'Intel i7-9700K', 'fotoIntel', '10699'),
-('5', 'Motherboard', 'Zakladni deska AMD', 'GIGABYTE X570 AORUS MASTER', 'fotoZakladovka', '10990'),
-('6', 'Motherboard', 'Zakladni deska Intel', 'GIGABYTE Z390 AORUS ELITE', 'fotoZakladovka', '5642');
+('1', 'GPU', 'Graficka karta NVIDIA', 'RTX 2070 SUPER', 'https://iczc.cz/f8lnmsmboihfv932ov25d2d5bf-3_7/obrazek', '12999.99'),
+('2', 'GPU', 'Graficka karta AMD', 'RX 5700 XT', 'https://iczc.cz/11bud31iv4hal8k4na0eqv9tl2-3_7/obrazek', '11999'),
+('3', 'CPU', 'Procesor AMD', 'Ryzen 7 3700X', 'https://iczc.cz/563gjip43mjhl96l6jkduh2lng-3_7/obrazek', '8699'),
+('4', 'CPU', 'Procesor Intel', 'Intel i7-9700K', 'https://iczc.cz/0rompok8rcj229qoerv6gcl5v2-5_7/obrazek', '10699'),
+('5', 'Motherboard', 'Zakladni deska AMD', 'GIGABYTE X570 AORUS MASTER', 'https://iczc.cz/e64knbjq2aivt9vk9rdqnnciv6-3_7/obrazek', '10990'),
+('6', 'Motherboard', 'Zakladni deska Intel', 'GIGABYTE Z390 AORUS ELITE', 'https://iczc.cz/66diilrl6sh0h8biqq9iejmn37-11_7/obrazek', '5642');
 
 insert into USER_ADDRESS (ID, CITY, COUNTRY, PSC, STREET)
 values
