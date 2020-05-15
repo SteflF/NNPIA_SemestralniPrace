@@ -22,12 +22,12 @@ class ProductGridItem extends React.Component<IProductGriItemProps>{
                                 {product.name}
                             </Link>
                         </h4>
-                        <a className="d-inline-block g-color-gray-dark-v5 g-font-size-13" href="#">{product.description}</a>
+                        <a className="d-inline-block g-color-gray-dark-v5 g-font-size-13" href="foo">{product.description}</a>
                         <span className="d-block g-color-black g-font-size-17">{product.price} Kč</span>
                     </div>
                     <ul className="list-inline media-body text-right">
                         <li className="list-inline-item align-middle mx-0">
-                            <a className="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Cart">
+                            <a className="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="foo" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Cart">
                                 <i className="icon-finance-100 u-line-icon-pro" />
                             </a>
                         </li>

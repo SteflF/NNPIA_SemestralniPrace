@@ -21,7 +21,8 @@ class Pager extends React.Component<IPagerProps>{
 
         return (
             <li className={classes} key={index}>
-                <a className="page-link"
+                <a className="page-link" role="button"
+                   href="foo"
                    onClick={(e) => this.handlePageChange(index, e)}>
                     {index + 1}
                 </a>
@@ -35,7 +36,8 @@ class Pager extends React.Component<IPagerProps>{
 
         return (
             <li className={classes} key="prev">
-                <a className="page-link"
+                <a className="page-link" role="button"
+                   href="foo"
                    onClick={(e) => this.handlePageChange(targetIndex, e)}
                    arial-label="Previous">
                     Previous
@@ -50,7 +52,8 @@ class Pager extends React.Component<IPagerProps>{
 
         return (
             <li className={classes} key="next">
-                <a className="page-link"
+                <a className="page-link" role="button"
+                   href="foo"
                    onClick={(e) => this.handlePageChange(targetIndex, e)}
                    arial-label="Next">
                     Next

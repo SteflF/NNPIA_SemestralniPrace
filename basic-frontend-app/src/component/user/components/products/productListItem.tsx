@@ -15,9 +15,7 @@ class ProductListItem extends React.Component<IProductListItemProps>{
         return (
             <div className="col-lg-4 col-md-6 mb-4">
                 <div className="card h-100">
-                    <a>
-                        <img className="card-img-top p-1" src={product.photo} alt=""  />
-                    </a>
+                    <img className="card-img-top p-1" src={product.photo} alt=""  />
                     <div className="card-body">
                         <h4 className="card-title">
                             <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: "black" }}>

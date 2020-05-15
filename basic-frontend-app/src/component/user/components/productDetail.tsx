@@ -7,10 +7,6 @@ import {ProductController_GetProduct} from "../../../apiClient/routes";
 type ProductDetailProps = RouteComponentProps<{ id: string }>;
 
 class ProductDetail extends React.Component<ProductDetailProps>{
-    constructor(props: ProductDetailProps) {
-        super(props);
-    }
-
     state = {
         product: {
             id: null,
@@ -70,7 +66,7 @@ class ProductDetail extends React.Component<ProductDetailProps>{
                             </p>
                             <small className="text-muted">Posted by Anonymous on 3/1/17</small>
                             <hr />
-                            <a href="#" className="btn btn-success">Leave a Review</a>
+                            <a href="foo" className="btn btn-success">Leave a Review</a>
                         </div>
                     </div>
                 </div>

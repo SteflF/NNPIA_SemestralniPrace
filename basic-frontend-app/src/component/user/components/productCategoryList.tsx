@@ -9,13 +9,9 @@ import ProductTable from "./products/productTable";
 import CarouselIndicators from "./common/carouselIndicators";
 import Pager from "./products/pager";
 
-type ProductDetailProps = RouteComponentProps;
+type ProductCategoryListProps = RouteComponentProps;
 
-class ProductCategoryList extends React.Component<ProductDetailProps>{
-    constructor(props: ProductDetailProps) {
-        super(props);
-    }
-
+class ProductCategoryList extends React.Component<ProductCategoryListProps>{
     state = {
         products: Array<IProductItem>(),
         viewType: ViewTypeEnum.gridView,
