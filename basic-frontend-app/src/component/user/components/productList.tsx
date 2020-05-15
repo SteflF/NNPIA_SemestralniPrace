@@ -7,7 +7,6 @@ import ProductTable from "./products/productTable";
 import CarouselIndicators from "./common/carouselIndicators";
 import Pager from "./products/pager";
 import {RouteComponentProps} from "react-router";
-import { string, number } from "prop-types";
 
 type ProductListProps = RouteComponentProps;
 
@@ -17,8 +16,7 @@ class ProductList extends React.Component<ProductListProps>{
         viewType: ViewTypeEnum.gridView,
         currentPageIndex: 0,
         pageSize: 3,
-        searchTerm: "",
-        productsCount: number
+        searchTerm: ""
     };
 
     async componentDidMount(){
@@ -26,7 +24,6 @@ class ProductList extends React.Component<ProductListProps>{
 
         this.setState({searchTerm: this.props.location.state});
         this.setState({ products: products.result });
-        this.setState({productsCount: products.result.length});
     }
 
     componentDidUpdate(prevProps: Readonly<ProductListProps>, prevState: Readonly<{}>) {
@@ -41,7 +38,7 @@ class ProductList extends React.Component<ProductListProps>{
 
     filterProducts = (products: IProductItem[]): IProductItem[] => {
         let searchTerm: string;
-        if(this.state.searchTerm !== undefined){
+        if(this.state.searchTerm !== undefined && this.state.searchTerm !== null){
             searchTerm = this.state.searchTerm.toString().toLowerCase();
         }
 
@@ -65,7 +62,7 @@ class ProductList extends React.Component<ProductListProps>{
         let products = this.state.products;
 
         if(products.length !== 0){
-            if(this.state.searchTerm !== undefined){
+            if(this.state.searchTerm !== undefined && this.state.searchTerm !== null){
                 products = this.filterProducts(products);
             }
             products = this.pageProducts(products);
@@ -87,12 +84,15 @@ class ProductList extends React.Component<ProductListProps>{
                         viewType={viewType}
                     />
                 </div>
-                <Pager
-                    currentPageIndex={currentPageIndex}
-                    itemsCount={ searchTerm === undefined || searchTerm.length === 0 ?  this.state.products.length : products.length}
-                    pageSize={pageSize}
-                    onPageIndexChange={this.handlePageIndexChange}
-                />
+                {products.length !== 0
+                    ? <Pager
+                        currentPageIndex={currentPageIndex}
+                        itemsCount={ searchTerm === undefined || searchTerm === null || searchTerm.length === 0 ?  this.state.products.length : products.length}
+                        pageSize={pageSize}
+                        onPageIndexChange={this.handlePageIndexChange}
+                    />
+                    : "Nebyly nalezeny zadne produkty."
+                }
             </div>
         );
     }

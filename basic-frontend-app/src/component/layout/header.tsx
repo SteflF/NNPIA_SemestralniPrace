@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 
 class Header extends React.Component{
     state = {};
@@ -18,23 +18,25 @@ class Header extends React.Component{
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
                                 <NavLink className="nav-link" exact={true} to="/products">
-                                    Products
+                                    Produkty
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" exact={true} to="/about">
-                                    About
+                                <NavLink className="nav-link" exact={true} to="/cart">
+                                    Kosik
                                 </NavLink>
                             </li>
+                            {localStorage.getItem("userInfo") !== null
+                                ? <li className="nav-item">
+                                    <NavLink className="nav-link" exact={true} to="/settings">
+                                        Nastaveni
+                                    </NavLink>
+                                </li>
+                                : ""}
                             <li className="nav-item">
-                                <NavLink className="nav-link" exact={true} to="/services">
-                                    Services
-                                </NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink className="nav-link" exact={true} to="/contact">
-                                    Contact
-                                </NavLink>
+                                {localStorage.getItem("userInfo") !== null
+                                    ? <Link className="nav-link" to="/products" onClick={() => localStorage.clear()}>Odhlasit se</Link>
+                                    : <Link className="nav-link" to="/">Prihlasit se</Link>}
                             </li>
                         </ul>
                     </div>
