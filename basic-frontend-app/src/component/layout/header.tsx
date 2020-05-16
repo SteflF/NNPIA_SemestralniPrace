@@ -2,8 +2,6 @@ import * as React from "react";
 import { Link, NavLink } from "react-router-dom"
 
 class Header extends React.Component{
-    state = {};
-
     render(){
         return(
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -28,7 +26,7 @@ class Header extends React.Component{
                             </li>
                             {localStorage.getItem("userInfo") !== null
                                 ? <li className="nav-item">
-                                    <NavLink className="nav-link" exact={true} to="/settings">
+                                    <NavLink className="nav-link" to="/user/address">
                                         Nastaveni
                                     </NavLink>
                                 </li>

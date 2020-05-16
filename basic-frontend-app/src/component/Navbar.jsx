@@ -10,7 +10,6 @@ const style = {
     flexGrow: 1
 }
 const NavBar = () => {
-    console.log("user: ", JSON.parse(localStorage.getItem("userInfo")));
     return (
             <div>
                 <AppBar position="static">

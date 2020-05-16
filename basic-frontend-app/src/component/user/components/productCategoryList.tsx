@@ -8,6 +8,7 @@ import ViewTypeEnum from "./products/viewTypeEnum";
 import ProductTable from "./products/productTable";
 import CarouselIndicators from "./common/carouselIndicators";
 import Pager from "./products/pager";
+import SideMenu from "../../layout/sideMenu";
 
 type ProductCategoryListProps = RouteComponentProps;
 
@@ -59,21 +60,24 @@ class ProductCategoryList extends React.Component<ProductCategoryListProps>{
         let products = this.getProduct();
 
         return(
-            <div className="col-lg-9">
-                <CarouselIndicators />
-                <div className="row">
-                    <ProductTable
-                        products={products}
-                        viewType={viewType}
+            <React.Fragment>
+                <SideMenu />
+                <div className="col-lg-9">
+                    <CarouselIndicators />
+                    <div className="row">
+                        <ProductTable
+                            products={products}
+                            viewType={viewType}
+                        />
+                    </div>
+                    <Pager
+                        currentPageIndex={currentPageIndex}
+                        itemsCount={this.state.products.length}
+                        pageSize={pageSize}
+                        onPageIndexChange={this.handlePageIndexChange}
                     />
                 </div>
-                <Pager
-                    currentPageIndex={currentPageIndex}
-                    itemsCount={this.state.products.length}
-                    pageSize={pageSize}
-                    onPageIndexChange={this.handlePageIndexChange}
-                />
-            </div>
+            </React.Fragment>
         );
     }
 }

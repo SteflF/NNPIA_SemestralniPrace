@@ -13,6 +13,10 @@ class UserService {
         return axios.get(USER_API_BASE_URL + '/' + userId, AuthService.getAuthHeader());
     }
 
+    fetchUserByName(userName){
+        return axios.get(USER_API_BASE_URL + "/user/" + userName, AuthService.getAuthHeader());
+    }
+
     deleteUser(userId) {
         return axios.delete(USER_API_BASE_URL + '/' + userId, AuthService.getAuthHeader());
     }

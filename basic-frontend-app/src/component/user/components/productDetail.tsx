@@ -3,6 +3,7 @@ import { number, string } from "prop-types";
 import { RouteComponentProps } from "react-router";
 import http from "../../../service/httpService";
 import {ProductController_GetProduct} from "../../../apiClient/routes";
+import SideMenu from "../../layout/sideMenu";
 
 type ProductDetailProps = RouteComponentProps<{ id: string }>;
 
@@ -29,47 +30,50 @@ class ProductDetail extends React.Component<ProductDetailProps>{
 
         if(product.id != null){
             return(
-                <div className="col-lg-9">
-                    <div className="card mt-4">
-                        <img className="card-img-top img-fluid p-1" src={product.photo.toString()} alt="" />
-                        <div className="card-body">
-                            <h3 className="card-title">{product.name}</h3>
-                            <h4>{product.price} Kč</h4>
-                            <p className="card-text">
-                                {product.description}
-                            </p>
-                            <span className="text-warning">★ ★ ★ ★ ☆</span> 4.0 stars
+                <React.Fragment>
+                    <SideMenu />
+                    <div className="col-lg-9">
+                        <div className="card mt-4">
+                            <img className="card-img-top img-fluid p-1" src={product.photo.toString()} alt="" />
+                            <div className="card-body">
+                                <h3 className="card-title">{product.name}</h3>
+                                <h4>{product.price} Kč</h4>
+                                <p className="card-text">
+                                    {product.description}
+                                </p>
+                                <span className="text-warning">★ ★ ★ ★ ☆</span> 4.0 stars
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="card card-outline-secondary my-4">
-                        <div className="card-header">
-                            Product Reviews
-                        </div>
-                        <div className="card-body">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,
-                                similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat
-                                laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                            <small className="text-muted">Posted by Anonymous on 3/1/17</small>
-                            <hr />
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam
-                                inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam
-                                aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.
-                            </p>
-                            <small className="text-muted">Posted by Anonymous on 3/1/17</small>
-                            <hr />
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam
-                                inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam
-                                aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.
-                            </p>
-                            <small className="text-muted">Posted by Anonymous on 3/1/17</small>
-                            <hr />
-                            <a href="foo" className="btn btn-success">Leave a Review</a>
+                        <div className="card card-outline-secondary my-4">
+                            <div className="card-header">
+                                Product Reviews
+                            </div>
+                            <div className="card-body">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore,
+                                    similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat
+                                    laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+                                <small className="text-muted">Posted by Anonymous on 3/1/17</small>
+                                <hr />
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam
+                                    inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam
+                                    aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.
+                                </p>
+                                <small className="text-muted">Posted by Anonymous on 3/1/17</small>
+                                <hr />
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam
+                                    inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam
+                                    aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.
+                                </p>
+                                <small className="text-muted">Posted by Anonymous on 3/1/17</small>
+                                <hr />
+                                <a href="foo" className="btn btn-success">Leave a Review</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </React.Fragment>
             );
         }
         else {

@@ -8,6 +8,10 @@ import ProductList from "../component/user/components/productList";
 import UserLayout from "../component/userLayout";
 import ProductDetail from "../component/user/components/productDetail";
 import ProductCategoryList from "../component/user/components/productCategoryList";
+import UserAddressForm from "../component/user/components/userAddressForm";
+import UserOrderList from "../component/user/components/userOrderList";
+import UserPasswordForm from "../component/user/components/userPasswordForm";
+import UserOrderDetail from "../component/user/components/userOrderDetail";
 
 const UserRoutes = () => {
     return(
@@ -24,6 +28,10 @@ const UserRoutes = () => {
                     <Route exact path="/products/motherboard" component={ProductCategoryList} />
                     <Route exact path="/product/:id" component={ProductDetail} />
                     <Route exact path="/products" component={ProductList} />
+                    <Route exact path="/user/address" component={UserAddressForm} />
+                    <Route exact path="/user/orders" component={UserOrderList} />
+                    <Route exact path="/user/order/:id" component={UserOrderDetail} />
+                    <Route exact path="/user/changePassword" component={UserPasswordForm} />
                 </UserLayout>
             </Switch>
         </Router>

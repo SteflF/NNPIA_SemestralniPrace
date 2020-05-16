@@ -4,9 +4,13 @@ import e.the.awesome.springreactcomboapp.dao.UserAddressRepository;
 import e.the.awesome.springreactcomboapp.model.UserAddress;
 import e.the.awesome.springreactcomboapp.model.UserAddressDto;
 import e.the.awesome.springreactcomboapp.service.UserAddressService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service(value = "userAddressService")
 public class UserAddressServiceImpl implements UserAddressService {
 
     private UserAddressRepository userAddressRepository;
@@ -39,11 +43,20 @@ public class UserAddressServiceImpl implements UserAddressService {
 
     @Override
     public UserAddress findById(int id) {
-        return null;
+        Optional<UserAddress> address = userAddressRepository.findById(id);
+        return address.isPresent() ? address.get() : null;
+
     }
 
     @Override
     public UserAddressDto update(UserAddressDto address) {
-        return null;
+        UserAddress userAddress = findById(address.getId());
+
+        if(userAddress != null){
+            BeanUtils.copyProperties(address, userAddress, "id", "user");
+            userAddressRepository.save(userAddress);
+        }
+
+        return address;
     }
 }

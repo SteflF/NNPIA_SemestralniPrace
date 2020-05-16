@@ -7,6 +7,7 @@ import ProductTable from "./products/productTable";
 import CarouselIndicators from "./common/carouselIndicators";
 import Pager from "./products/pager";
 import {RouteComponentProps} from "react-router";
+import SideMenu from "../../layout/sideMenu";
 
 type ProductListProps = RouteComponentProps;
 
@@ -76,24 +77,27 @@ class ProductList extends React.Component<ProductListProps>{
         let products = this.getProduct();
 
         return(
-            <div className="col-lg-9">
-                <CarouselIndicators />
-                <div className="row">
-                    <ProductTable
-                        products={products}
-                        viewType={viewType}
-                    />
+            <React.Fragment>
+                <SideMenu />
+                <div className="col-lg-9">
+                    <CarouselIndicators />
+                    <div className="row">
+                        <ProductTable
+                            products={products}
+                            viewType={viewType}
+                        />
+                    </div>
+                    {products.length !== 0
+                        ? <Pager
+                            currentPageIndex={currentPageIndex}
+                            itemsCount={ searchTerm === undefined || searchTerm === null || searchTerm.length === 0 ?  this.state.products.length : products.length}
+                            pageSize={pageSize}
+                            onPageIndexChange={this.handlePageIndexChange}
+                        />
+                        : "Nebyly nalezeny zadne produkty."
+                    }
                 </div>
-                {products.length !== 0
-                    ? <Pager
-                        currentPageIndex={currentPageIndex}
-                        itemsCount={ searchTerm === undefined || searchTerm === null || searchTerm.length === 0 ?  this.state.products.length : products.length}
-                        pageSize={pageSize}
-                        onPageIndexChange={this.handlePageIndexChange}
-                    />
-                    : "Nebyly nalezeny zadne produkty."
-                }
-            </div>
+            </React.Fragment>
         );
     }
 }

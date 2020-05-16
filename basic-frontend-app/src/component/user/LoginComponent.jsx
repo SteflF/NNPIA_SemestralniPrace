@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import AuthService from '../../service/AuthService';
 import {Helmet} from "react-helmet";
+import UserService from "../../service/UserService";
 
 class LoginComponent extends React.Component {
 
@@ -27,9 +28,15 @@ class LoginComponent extends React.Component {
     login = (e) => {
         e.preventDefault();
         const credentials = {username: this.state.username, password: this.state.password};
+
         AuthService.login(credentials).then(res => {
             if(res.data.status === 200){
                 localStorage.setItem("userInfo", JSON.stringify(res.data.result));
+                UserService.fetchUserByName(this.state.username).then(
+                    res => {
+                        window.localStorage.setItem("userId", res.data.result.id);
+                    }
+                );
                 this.props.history.push('/products');
             }else {
                 this.setState({message: res.data.message});

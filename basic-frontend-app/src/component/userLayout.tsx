@@ -1,14 +1,12 @@
 import * as React from "react";
 import Header from "./layout/header";
 import Footer from "./layout/footer";
-import SideMenu from "./layout/sideMenu";
 
 const UserLayout = (props: {children?: React.ReactNode}) => (
     <React.Fragment>
         <Header />
-        <div className="container">
+        <div className="container min-vh-100">
             <div className="row">
-                <SideMenu />
                 {props.children}
             </div>
         </div>
