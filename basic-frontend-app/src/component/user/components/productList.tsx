@@ -8,6 +8,8 @@ import CarouselIndicators from "./common/carouselIndicators";
 import Pager from "./products/pager";
 import {RouteComponentProps} from "react-router";
 import SideMenu from "../../layout/sideMenu";
+import SortList from "./common/sortList";
+import SortTypeEnum from "./products/sortTypeEnum";
 
 type ProductListProps = RouteComponentProps;
 
@@ -17,7 +19,8 @@ class ProductList extends React.Component<ProductListProps>{
         viewType: ViewTypeEnum.gridView,
         currentPageIndex: 0,
         pageSize: 3,
-        searchTerm: ""
+        searchTerm: "",
+        sortType: SortTypeEnum.AtoZ
     };
 
     async componentDidMount(){
@@ -35,6 +38,10 @@ class ProductList extends React.Component<ProductListProps>{
 
     handlePageIndexChange = (newPageIndex: number): void => {
         this.setState({currentPageIndex: newPageIndex})
+    }
+
+    handleSortTypeChange = (sortType: SortTypeEnum): void => {
+        this.setState({sortType});
     }
 
     filterProducts = (products: IProductItem[]): IProductItem[] => {
@@ -59,6 +66,46 @@ class ProductList extends React.Component<ProductListProps>{
         return products.slice(start, end);
     }
 
+    sortProducts = (products: IProductItem[]): IProductItem[] => {
+        switch (this.state.sortType) {
+            case SortTypeEnum.AtoZ:
+                products.sort((a, b) => {
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                break;
+
+            case SortTypeEnum.ZtoA:
+                products.sort((a, b) => {
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                products.reverse();
+                break;
+
+            case SortTypeEnum.PriceLowest:
+                products.sort((a, b) => a.price - b.price);
+                break;
+
+            case SortTypeEnum.PriceHighest:
+                products.sort((a, b) => a.price - b.price);
+                products.reverse();
+                break;
+        }
+
+        return products;
+    }
+
     getProduct = (): IProductItem[] => {
         let products = this.state.products;
 
@@ -67,13 +114,14 @@ class ProductList extends React.Component<ProductListProps>{
                 products = this.filterProducts(products);
             }
             products = this.pageProducts(products);
+            products = this.sortProducts(products);
         }
 
         return products;
     }
 
     render() {
-        const { viewType, currentPageIndex, pageSize, searchTerm } = this.state;
+        const { viewType, currentPageIndex, pageSize, searchTerm, sortType } = this.state;
         let products = this.getProduct();
 
         return(
@@ -81,6 +129,10 @@ class ProductList extends React.Component<ProductListProps>{
                 <SideMenu />
                 <div className="col-lg-9">
                     <CarouselIndicators />
+                    <SortList
+                        sortType={sortType}
+                        onSortTypeChange={this.handleSortTypeChange}
+                    />
                     <div className="row">
                         <ProductTable
                             products={products}
