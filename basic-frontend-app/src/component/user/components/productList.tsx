@@ -1,7 +1,7 @@
 import * as React from "react";
 import {IProductItem} from "../../../apiModels/viewModels";
 import http from "../../../service/httpService";
-import {ProductController_GetProducts} from "../../../apiClient/routes";
+import {ProductController_GetProducts, ProductController_GetProductsBySearchString} from "../../../apiClient/routes";
 import ViewTypeEnum from "./products/viewTypeEnum";
 import ProductTable from "./products/productTable";
 import CarouselIndicators from "./common/carouselIndicators";
@@ -15,35 +15,77 @@ type ProductListProps = RouteComponentProps;
 
 class ProductList extends React.Component<ProductListProps>{
     state = {
-        products: Array<IProductItem>(),
+        productsPaging: {
+            products: Array<IProductItem>(),
+            count: 0,
+        },
         viewType: ViewTypeEnum.gridView,
-        currentPageIndex: 0,
+        pageNumber: 0,
         pageSize: 3,
-        searchTerm: "",
-        sortType: SortTypeEnum.AtoZ
+        sortAsc: true,
+        sortBy: 'name',
+        sortByEnum: SortTypeEnum.NameAsc,
+        searchTerm: ''
     };
 
     async componentDidMount(){
-        const { data: products } = await http.get(ProductController_GetProducts);
+        const { pageNumber, pageSize, sortBy, sortAsc } = this.state;
 
-        this.setState({searchTerm: this.props.location.state});
-        this.setState({ products: products.result });
+        const { data: products } = await http.get(ProductController_GetProducts(pageNumber, pageSize, sortBy, sortAsc));
+
+        this.setState({ productsPaging: products.result });
+        this.setState({ searchTerm: this.props.location.state });
     }
 
-    componentDidUpdate(prevProps: Readonly<ProductListProps>, prevState: Readonly<{}>) {
+    async componentDidUpdate(prevProps: Readonly<ProductListProps>, prevState: Readonly<any>) {
+        const { pageNumber, pageSize, sortBy, sortAsc, searchTerm } = this.state;
+
         if(prevProps.location.state !== this.props.location.state){
-            this.setState({searchTerm: this.props.location.state});
+            this.setState({ searchTerm: this.props.location.state });
+
+            if(this.props.location.state !== undefined && this.props.location.state !== ''){
+                let searchString = this.props.location.state;
+
+                const { data: products } = await http.get(ProductController_GetProductsBySearchString(searchString!.toString(), pageNumber, pageSize, sortBy, sortAsc));
+                this.setState({ productsPaging: products.result });
+            }else{
+                const { data: products } = await http.get(ProductController_GetProducts(pageNumber, pageSize, sortBy, sortAsc));
+                this.setState({ productsPaging: products.result });
+            }
+        }
+
+        if(prevState.pageNumber !== this.state.pageNumber || prevState.sortAsc !== this.state.sortAsc || prevState.sortByEnum !== this.state.sortByEnum){
+            if(searchTerm !== '' && searchTerm !== undefined){
+                const { data: products } = await http.get(ProductController_GetProductsBySearchString(searchTerm, pageNumber, pageSize, sortBy, sortAsc))
+                this.setState({ productsPaging: products.result });
+            }else{
+                const { data: products } = await http.get(ProductController_GetProducts(pageNumber, pageSize, sortBy, sortAsc));
+                this.setState({ productsPaging: products.result });
+            }
         }
     }
 
-    handlePageIndexChange = (newPageIndex: number): void => {
-        this.setState({currentPageIndex: newPageIndex})
+    handlePageIndexChange = (newPageNumber: number): void => {
+        this.setState({ pageNumber: newPageNumber })
     }
 
     handleSortTypeChange = (sortType: SortTypeEnum): void => {
-        this.setState({sortType});
+        if (sortType === SortTypeEnum.NameAsc || sortType === SortTypeEnum.NameDesc){
+            if (sortType === SortTypeEnum.NameAsc){
+                this.setState({sortAsc: true, sortBy: "name", sortByEnum: SortTypeEnum.NameAsc});
+            }else{
+                this.setState({sortAsc: false, sortBy: "name", sortByEnum: SortTypeEnum.NameDesc});
+            }
+        }else{
+            if (sortType === SortTypeEnum.PriceAsc){
+                this.setState({sortAsc: true, sortBy: "price", sortByEnum: SortTypeEnum.PriceAsc});
+            }else{
+                this.setState({sortAsc: false, sortBy: "price", sortByEnum: SortTypeEnum.PriceDesc});
+            }
+        }
     }
 
+    /*
     filterProducts = (products: IProductItem[]): IProductItem[] => {
         let searchTerm: string;
         if(this.state.searchTerm !== undefined && this.state.searchTerm !== null){
@@ -52,6 +94,7 @@ class ProductList extends React.Component<ProductListProps>{
 
         return products.filter(i => i.name.toLowerCase().includes(searchTerm) || i.description.toLowerCase().includes(searchTerm));
     }
+
 
     pageProducts = (products: IProductItem[]): IProductItem[] => {
         const { currentPageIndex, pageSize } = this.state;
@@ -65,6 +108,7 @@ class ProductList extends React.Component<ProductListProps>{
 
         return products.slice(start, end);
     }
+
 
     sortProducts = (products: IProductItem[]): IProductItem[] => {
         switch (this.state.sortType) {
@@ -106,47 +150,50 @@ class ProductList extends React.Component<ProductListProps>{
         return products;
     }
 
+
     getProduct = (): IProductItem[] => {
-        let products = this.state.products;
+        let products = this.state.productsPaging.products;
 
         if(products.length !== 0){
             if(this.state.searchTerm !== undefined && this.state.searchTerm !== null){
                 products = this.filterProducts(products);
             }
-            products = this.pageProducts(products);
-            products = this.sortProducts(products);
+            //products = this.pageProducts(products);
+            //products = this.sortProducts(products);
         }
 
         return products;
     }
+*/
 
     render() {
-        const { viewType, currentPageIndex, pageSize, searchTerm, sortType } = this.state;
-        let products = this.getProduct();
-
+        const { viewType, pageNumber, pageSize, searchTerm, sortByEnum, productsPaging } = this.state;
+        
         return(
             <React.Fragment>
                 <SideMenu />
                 <div className="col-lg-9">
                     <CarouselIndicators />
                     <SortList
-                        sortType={sortType}
+                        sortBy={sortByEnum}
                         onSortTypeChange={this.handleSortTypeChange}
                     />
                     <div className="row">
-                        <ProductTable
-                            products={products}
-                            viewType={viewType}
-                        />
+                        {productsPaging.count !== 0
+                            ? <ProductTable
+                                products={productsPaging.products}
+                                viewType={viewType}
+                            />
+                            : ""}
                     </div>
-                    {products.length !== 0
+                    {productsPaging.count !== 0
                         ? <Pager
-                            currentPageIndex={currentPageIndex}
-                            itemsCount={ searchTerm === undefined || searchTerm === null || searchTerm.length === 0 ?  this.state.products.length : products.length}
+                            currentPageIndex={pageNumber}
+                            itemsCount={ productsPaging.count }
                             pageSize={pageSize}
                             onPageIndexChange={this.handlePageIndexChange}
                         />
-                        : "Nebyly nalezeny zadne produkty."
+                        : "Nebyly nalezeny žádné produkty."
                     }
                 </div>
             </React.Fragment>

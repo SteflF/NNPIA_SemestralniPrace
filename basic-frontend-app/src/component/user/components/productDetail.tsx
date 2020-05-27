@@ -1,9 +1,9 @@
 import * as React from "react";
-import { number, string } from "prop-types";
 import { RouteComponentProps } from "react-router";
 import http from "../../../service/httpService";
 import {ProductController_GetProduct} from "../../../apiClient/routes";
 import SideMenu from "../../layout/sideMenu";
+import { number, string } from "prop-types";
 
 type ProductDetailProps = RouteComponentProps<{ id: string }>;
 
@@ -12,17 +12,23 @@ class ProductDetail extends React.Component<ProductDetailProps>{
         product: {
             id: null,
             name: string,
-            price: number,
             description: string,
+            price: number,
             photo: string,
             category: string
         }
-    };
+    }
 
     async componentDidMount(){
         const productId = parseInt(this.props.match.params.id);
         const product = await http.get(ProductController_GetProduct(productId));
         this.setState({product: product.data.result});
+    }
+
+    handleSubmit = async (e: any) => {
+        e.preventDefault();
+
+
     }
 
     render() {
@@ -42,6 +48,10 @@ class ProductDetail extends React.Component<ProductDetailProps>{
                                     {product.description}
                                 </p>
                                 <span className="text-warning">★ ★ ★ ★ ☆</span> 4.0 stars
+                                <br/>
+                                <form onSubmit={this.handleSubmit}>
+                                    <button className="btn btn-danger mt-1" type="submit">Do košíku</button>
+                                </form>
                             </div>
                         </div>
 

@@ -10,6 +10,15 @@ public class ProductDto {
     private String photo;
     private String category;
 
+    public ProductDto(int id, String name, BigDecimal price, String description, String photo, String category) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.photo = photo;
+        this.category = category;
+    }
+
     public int getId() {
         return id;
     }

@@ -3,12 +3,16 @@ package e.the.awesome.springreactcomboapp.service.impl;
 import e.the.awesome.springreactcomboapp.dao.ProductRepository;
 import e.the.awesome.springreactcomboapp.model.Product;
 import e.the.awesome.springreactcomboapp.model.ProductDto;
+import e.the.awesome.springreactcomboapp.model.ProductPagingDto;
 import e.the.awesome.springreactcomboapp.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service(value = "productService")
 public class ProductServiceImpl implements ProductService {
@@ -25,10 +29,42 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAll() {
-        List<Product> products = new ArrayList<>();
-        productRepository.findAll().iterator().forEachRemaining(products::add);
-        return products;
+    public ProductPagingDto findAll(int pageNumber, int pageSize, String sortBy, Boolean sortAsc) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize, sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+
+        Page<Product> pagedProducts = productRepository.findAll(paging);
+
+        if (pagedProducts.hasContent()){
+            return new ProductPagingDto(pagedProducts.getContent().stream().map(i -> new ProductDto(i.getId(), i.getName(), i.getPrice(), i.getDescription(), i.getPhoto(), i.getCategory())).collect(Collectors.toList()), (int) pagedProducts.getTotalElements());
+        }else{
+            return new ProductPagingDto();
+        }
+    }
+
+    @Override
+    public ProductPagingDto findByCategory(String category, int pageNumber, int pageSize, String sortBy, Boolean sortAsc) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize, sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+
+        Page<Product> pagedProducts = productRepository.findByCategoryStartsWithIgnoreCase(category, paging);
+
+        if (pagedProducts.hasContent()){
+            return new ProductPagingDto(pagedProducts.getContent().stream().map(i -> new ProductDto(i.getId(), i.getName(), i.getPrice(), i.getDescription(), i.getPhoto(), i.getCategory())).collect(Collectors.toList()), (int) pagedProducts.getTotalElements());
+        }else{
+            return new ProductPagingDto();
+        }
+    }
+
+    @Override
+    public ProductPagingDto findBySearchString(String searchString, int pageNumber, int pageSize, String sortBy, Boolean sortAsc) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize, sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+
+        Page<Product> pagedProducts = productRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(searchString, searchString, paging);
+
+        if (pagedProducts.hasContent()){
+            return new ProductPagingDto(pagedProducts.getContent().stream().map(i -> new ProductDto(i.getId(), i.getName(), i.getPrice(), i.getDescription(), i.getPhoto(), i.getCategory())).collect(Collectors.toList()), (int) pagedProducts.getTotalElements());
+        }else{
+            return new ProductPagingDto();
+        }
     }
 
     @Override

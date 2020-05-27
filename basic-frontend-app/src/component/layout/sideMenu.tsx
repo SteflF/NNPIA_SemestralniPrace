@@ -3,7 +3,7 @@ import { NavLink, Link } from "react-router-dom"
 
 class SideMenu extends React.Component{
     state = {
-        searchTerm: ""
+        searchTerm: ''
     }
 
     handleSearchTermChange = (e: any): void => {
@@ -19,7 +19,7 @@ class SideMenu extends React.Component{
                 <Link className="btn btn-dark mb-1"
                       to={{pathname: '/products', state: this.state.searchTerm}}>
                     Vyhledat
-                </Link> | <Link className="btn btn-dark mb-1" to="/products" onClick={() => this.setState({searchTerm: ""})}>Všechny produkty</Link>
+                </Link> | <Link className="btn btn-dark mb-1" to='/products' onClick={() => this.setState({searchTerm: ''})}>Všechny produkty</Link>
                 <div className="list-group">
                     <NavLink to={{
                         pathname: '/products/cpu',

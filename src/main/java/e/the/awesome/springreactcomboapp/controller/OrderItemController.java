@@ -2,6 +2,7 @@ package e.the.awesome.springreactcomboapp.controller;
 
 import e.the.awesome.springreactcomboapp.model.ApiResponse;
 import e.the.awesome.springreactcomboapp.model.OrderItem;
+import e.the.awesome.springreactcomboapp.model.OrderItemDto;
 import e.the.awesome.springreactcomboapp.service.OrderItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,12 @@ public class OrderItemController {
     @GetMapping("/orderitems/{id}")
     public ApiResponse<List<OrderItem>> getOrderItemsByUserId(@PathVariable int id){
         return new ApiResponse<>(HttpStatus.OK.value(), "OrderItems fetched successfully", orderItemService.findByOrderId(id));
+    }
+
+    //Tady nebo v OrderController?
+    @PostMapping("/orderitem/add/{id}")
+    public ApiResponse<OrderItem> addItemToOrder(@PathVariable int userId, @RequestBody OrderItemDto item){
+        return new ApiResponse<>(HttpStatus.OK.value(), "OrderItem added successfully.", orderItemService.save(item));
     }
 
 }

@@ -1,8 +1,8 @@
 enum SortTypeEnum {
-    PriceLowest,
-    PriceHighest,
-    AtoZ,
-    ZtoA
+    PriceAsc,
+    PriceDesc,
+    NameAsc,
+    NameDesc
 }
 
 export default SortTypeEnum;

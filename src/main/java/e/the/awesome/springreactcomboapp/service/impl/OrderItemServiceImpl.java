@@ -20,7 +20,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public OrderItem save(OrderDto order) {
+    public OrderItem save(OrderItemDto order) {
         return null;
     }
 
@@ -35,7 +35,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public OrderItemDto update(OrderDto order) {
+    public OrderItemDto update(OrderItemDto order) {
         return null;
     }
 

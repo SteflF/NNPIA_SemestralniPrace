@@ -20,21 +20,21 @@ class Header extends React.Component{
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" exact={true} to="/cart">
-                                    Kosik
+                                <NavLink className="nav-link" exact={true} to="/user/shoppingcart">
+                                    Košík
                                 </NavLink>
                             </li>
                             {localStorage.getItem("userInfo") !== null
                                 ? <li className="nav-item">
                                     <NavLink className="nav-link" to="/user/address">
-                                        Nastaveni
+                                        Nastavení
                                     </NavLink>
                                 </li>
                                 : ""}
                             <li className="nav-item">
                                 {localStorage.getItem("userInfo") !== null
-                                    ? <Link className="nav-link" to="/products" onClick={() => localStorage.clear()}>Odhlasit se</Link>
-                                    : <Link className="nav-link" to="/">Prihlasit se</Link>}
+                                    ? <Link className="nav-link" to="/products" onClick={() => localStorage.clear()}>Odhlásit se</Link>
+                                    : <Link className="nav-link" to="/">Přihlásit se</Link>}
                             </li>
                         </ul>
                     </div>

@@ -3,7 +3,7 @@ import { string } from "prop-types";
 import {RouteComponentProps} from 'react-router';
 import {IProductItem} from "../../../apiModels/viewModels";
 import http from "../../../service/httpService";
-import {ProductController_GetProducts} from "../../../apiClient/routes";
+import { ProductController_GetProductsByCategory} from "../../../apiClient/routes";
 import ViewTypeEnum from "./products/viewTypeEnum";
 import ProductTable from "./products/productTable";
 import CarouselIndicators from "./common/carouselIndicators";
@@ -16,31 +16,57 @@ type ProductCategoryListProps = RouteComponentProps;
 
 class ProductCategoryList extends React.Component<ProductCategoryListProps>{
     state = {
-        products: Array<IProductItem>(),
+        productsPaging: {
+            products: Array<IProductItem>(),
+            count: 0,
+        },
         viewType: ViewTypeEnum.gridView,
         category: string,
-        currentPageIndex: 0,
-        pageSize: 3,
-        sortType: SortTypeEnum.AtoZ
+        pageNumber: 0,
+        pageSize: 1,
+        sortAsc: true,
+        sortBy: 'name',
+        sortByEnum: SortTypeEnum.NameAsc
     };
 
     async componentDidMount(){
-        const { data: products } = await http.get(ProductController_GetProducts);
-        this.setState({category: this.props.location.state})
+        const { pageNumber, pageSize, sortBy, sortAsc } = this.state;
+        const category = this.props.location.state;
+        const { data: products } = await http.get(ProductController_GetProductsByCategory(category!.toString(), pageNumber, pageSize, sortBy, sortAsc));
 
-        const filteredProducts = products.result.filter((i: any) => i.category === this.state.category);
+        this.setState({ category })
+        this.setState({ productsPaging: products.result });
+    }
 
-        this.setState({ products: filteredProducts });
+    async componentDidUpdate(prevProps: Readonly<ProductCategoryListProps>, prevState: Readonly<any>) {
+        if(prevState.pageNumber !== this.state.pageNumber || prevState.sortAsc !== this.state.sortAsc || prevState.sortByEnum !== this.state.sortByEnum){
+            const { category, pageNumber, pageSize, sortBy, sortAsc } = this.state;
+            const { data: products } = await http.get(ProductController_GetProductsByCategory(category.toString(), pageNumber, pageSize, sortBy, sortAsc));
+
+            this.setState({ productsPaging: products.result });
+        }
     }
 
     handlePageIndexChange = (newPageIndex: number): void => {
-        this.setState({currentPageIndex: newPageIndex})
+        this.setState({pageNumber: newPageIndex})
     }
 
     handleSortTypeChange = (sortType: SortTypeEnum): void => {
-        this.setState({sortType});
+        if (sortType === SortTypeEnum.NameAsc || sortType === SortTypeEnum.NameDesc){
+            if (sortType === SortTypeEnum.NameAsc){
+                this.setState({sortAsc: true, sortBy: "name", sortByEnum: SortTypeEnum.NameAsc});
+            }else{
+                this.setState({sortAsc: false, sortBy: "name", sortByEnum: SortTypeEnum.NameDesc});
+            }
+        }else{
+            if (sortType === SortTypeEnum.PriceAsc){
+                this.setState({sortAsc: true, sortBy: "price", sortByEnum: SortTypeEnum.PriceAsc});
+            }else{
+                this.setState({sortAsc: false, sortBy: "price", sortByEnum: SortTypeEnum.PriceDesc});
+            }
+        }
     }
-
+/*
     pageProducts = (products: IProductItem[]): IProductItem[] => {
         const { currentPageIndex, pageSize } = this.state;
 
@@ -56,7 +82,7 @@ class ProductCategoryList extends React.Component<ProductCategoryListProps>{
 
     sortProducts = (products: IProductItem[]): IProductItem[] => {
         switch (this.state.sortType) {
-            case SortTypeEnum.AtoZ:
+            case SortTypeEnum.NameAsc:
                 products.sort((a, b) => {
                     if (a.name < b.name) {
                         return -1;
@@ -68,7 +94,7 @@ class ProductCategoryList extends React.Component<ProductCategoryListProps>{
                 });
                 break;
 
-            case SortTypeEnum.ZtoA:
+            case SortTypeEnum.NameDesc:
                 products.sort((a, b) => {
                     if (a.name < b.name) {
                         return -1;
@@ -81,11 +107,11 @@ class ProductCategoryList extends React.Component<ProductCategoryListProps>{
                 products.reverse();
                 break;
 
-            case SortTypeEnum.PriceLowest:
+            case SortTypeEnum.PriceAsc:
                 products.sort((a, b) => a.price - b.price);
                 break;
 
-            case SortTypeEnum.PriceHighest:
+            case SortTypeEnum.PriceDesc:
                 products.sort((a, b) => a.price - b.price);
                 products.reverse();
                 break;
@@ -95,17 +121,17 @@ class ProductCategoryList extends React.Component<ProductCategoryListProps>{
     }
 
     getProduct = (): IProductItem[] => {
-        let products = this.state.products;
+        let products = this.state.productsPaging.products;
 
-        products = this.pageProducts(products);
-        products = this.sortProducts(products);
+        //products = this.pageProducts(products);
+        //products = this.sortProducts(products);
 
         return products;
     }
+*/
 
     render() {
-        const { viewType, currentPageIndex, pageSize, sortType } = this.state;
-        let products = this.getProduct();
+        const { viewType, pageNumber, pageSize, sortByEnum, productsPaging } = this.state;
 
         return(
             <React.Fragment>
@@ -113,21 +139,25 @@ class ProductCategoryList extends React.Component<ProductCategoryListProps>{
                 <div className="col-lg-9">
                     <CarouselIndicators />
                     <SortList
-                        sortType={sortType}
+                        sortBy={sortByEnum}
                         onSortTypeChange={this.handleSortTypeChange}
                     />
-                    <div className="row">
-                        <ProductTable
-                            products={products}
-                            viewType={viewType}
-                        />
-                    </div>
-                    <Pager
-                        currentPageIndex={currentPageIndex}
-                        itemsCount={this.state.products.length}
-                        pageSize={pageSize}
-                        onPageIndexChange={this.handlePageIndexChange}
-                    />
+                    {productsPaging.count !== 0
+                        ?<div>
+                            <div className="row">
+                                <ProductTable
+                                    products={productsPaging.products}
+                                    viewType={viewType}
+                                />
+                            </div>
+                            <Pager
+                                currentPageIndex={pageNumber}
+                                itemsCount={this.state.productsPaging.count}
+                                pageSize={pageSize}
+                                onPageIndexChange={this.handlePageIndexChange}
+                            />
+                        </div>
+                        : "Nebyly nalezeny žádné produkty."}
                 </div>
             </React.Fragment>
         );

@@ -3,6 +3,7 @@ package e.the.awesome.springreactcomboapp.controller;
 import e.the.awesome.springreactcomboapp.model.ApiResponse;
 import e.the.awesome.springreactcomboapp.model.Product;
 import e.the.awesome.springreactcomboapp.model.ProductDto;
+import e.the.awesome.springreactcomboapp.model.ProductPagingDto;
 import e.the.awesome.springreactcomboapp.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,29 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ApiResponse<List<Product>> getProducts(){
-        return new ApiResponse<>(HttpStatus.OK.value(), "Products fetched successfully.", productService.findAll());
+    public ApiResponse<ProductPagingDto> getProducts(@RequestParam(defaultValue = "0") int pageNumber,
+                                                     @RequestParam(defaultValue = "3") int pageSize,
+                                                     @RequestParam(defaultValue = "name") String sortBy,
+                                                     @RequestParam(defaultValue = "true") Boolean sortAsc){
+        return new ApiResponse<>(HttpStatus.OK.value(), "Products fetched successfully.", productService.findAll(pageNumber, pageSize, sortBy, sortAsc));
+    }
+
+    @GetMapping("/products/{category}")
+    public ApiResponse<ProductPagingDto> getProductsByCategory(@PathVariable String category,
+                                                               @RequestParam(defaultValue = "0") int pageNumber,
+                                                               @RequestParam(defaultValue = "1") int pageSize,
+                                                               @RequestParam(defaultValue = "name") String sortBy,
+                                                               @RequestParam(defaultValue = "true") Boolean sortAsc){
+        return new ApiResponse<>(HttpStatus.OK.value(), "Products by category fetched successfully.", productService.findByCategory(category ,pageNumber, pageSize, sortBy, sortAsc));
+    }
+
+    @GetMapping("/products/search")
+    public ApiResponse<ProductPagingDto> getProductsBySearchString(@RequestParam String searchString,
+                                                                   @RequestParam(defaultValue = "0") int pageNumber,
+                                                                   @RequestParam(defaultValue = "3") int pageSize,
+                                                                   @RequestParam(defaultValue = "name") String sortBy,
+                                                                   @RequestParam(defaultValue = "true") Boolean sortAsc){
+        return new ApiResponse<>(HttpStatus.OK.value(), "Products by searchString fetched successfully.", productService.findBySearchString(searchString ,pageNumber, pageSize, sortBy, sortAsc));
     }
 
     @GetMapping("/product/{id}")
