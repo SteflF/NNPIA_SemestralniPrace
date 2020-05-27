@@ -168,7 +168,7 @@ class ProductList extends React.Component<ProductListProps>{
 
     render() {
         const { viewType, pageNumber, pageSize, searchTerm, sortByEnum, productsPaging } = this.state;
-        
+
         return(
             <React.Fragment>
                 <SideMenu />
