@@ -1,5 +1,6 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
+import { View, StyleSheet, Button, Alert } from "react-native";
 import http from "../../../service/httpService";
 import {ProductController_GetProduct} from "../../../apiClient/routes";
 import SideMenu from "../../layout/sideMenu";
