@@ -2,6 +2,11 @@ import * as React from "react";
 import { Link, NavLink } from "react-router-dom"
 
 class Header extends React.Component{
+    handleLogout = () => {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userInfo");
+    }
+
     render(){
         return(
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -33,7 +38,7 @@ class Header extends React.Component{
                                 : ""}
                             <li className="nav-item">
                                 {localStorage.getItem("userInfo") !== null
-                                    ? <Link className="nav-link" to="/products" onClick={() => localStorage.clear()}>Odhlásit se</Link>
+                                    ? <Link className="nav-link" to="/products" onClick={this.handleLogout}>Odhlásit se</Link>
                                     : <Link className="nav-link" to="/">Přihlásit se</Link>}
                             </li>
                         </ul>
