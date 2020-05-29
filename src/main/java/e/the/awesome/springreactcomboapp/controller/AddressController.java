@@ -27,4 +27,9 @@ public class AddressController {
     public ApiResponse<UserAddress> updateAddress(@RequestBody UserAddressDto address){
         return new ApiResponse<>(HttpStatus.OK.value(), "Address updated successfully.", userAddressService.update(address));
     }
+
+    @PostMapping("/user/address")
+    public ApiResponse<UserAddress> createAddress(@RequestBody UserAddressDto address){
+        return new ApiResponse<>(HttpStatus.OK.value(), "Address created successfully.", userAddressService.save(address));
+    }
 }

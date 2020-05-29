@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
+	public User findByEmail(String email) {
+		return null;
+	}
+
+	@Override
 	public User findById(int id) {
 		Optional<User> optionalUser = userRepository.findById(id);
 		return optionalUser.isPresent() ? optionalUser.get() : null;
@@ -88,7 +93,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	    newUser.setUsername(user.getUsername());
 	    newUser.setFirstName(user.getFirstName());
 	    newUser.setLastName(user.getLastName());
-	    newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+	    newUser.setEmail(user.getEmail());
+	    newUser.setPhoneNumber(user.getPhoneNumber());
+	    newUser.setPassword(user.getPassword() == null ? null : bcryptEncoder.encode(user.getPassword()));
 	    newUser.setAddress(optionalAddress.isPresent() ? optionalAddress.get() : null);
 
 	    return userRepository.save(newUser);

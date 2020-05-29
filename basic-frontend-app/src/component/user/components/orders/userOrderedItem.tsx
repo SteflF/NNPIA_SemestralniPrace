@@ -11,7 +11,7 @@ class UserOrderedItem extends React.Component<IUserOrderedItemProps>{
 
         return(
             <tr>
-                <td><img src="https://picsum.photos/100"/></td>
+                <td><img src="https://picsum.photos/100" alt=""/></td>
                 <td>{orderItem.product.name}</td>
                 <td>{orderItem.count}</td>
                 <td>{orderItem.price} Kč</td>

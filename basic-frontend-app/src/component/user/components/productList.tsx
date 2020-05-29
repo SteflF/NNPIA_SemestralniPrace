@@ -43,7 +43,7 @@ class ProductList extends React.Component<ProductListProps>{
         if(prevProps.location.state !== this.props.location.state){
             this.setState({ searchTerm: this.props.location.state });
 
-            if(this.props.location.state !== undefined && this.props.location.state !== ''){
+            if(this.props.location.state !== undefined && this.props.location.state !== '' && this.props.location.state !== null){
                 let searchString = this.props.location.state;
 
                 const { data: products } = await http.get(ProductController_GetProductsBySearchString(searchString!.toString(), pageNumber, pageSize, sortBy, sortAsc));
@@ -167,7 +167,7 @@ class ProductList extends React.Component<ProductListProps>{
 */
 
     render() {
-        const { viewType, pageNumber, pageSize, searchTerm, sortByEnum, productsPaging } = this.state;
+        const { viewType, pageNumber, pageSize, sortByEnum, productsPaging } = this.state;
 
         return(
             <React.Fragment>

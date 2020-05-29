@@ -1,9 +1,9 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
-import { View, StyleSheet, Button, Alert } from "react-native";
 import http from "../../../service/httpService";
 import {ProductController_GetProduct} from "../../../apiClient/routes";
 import SideMenu from "../../layout/sideMenu";
+import { ILocalProduct } from "../../../apiModels/viewModels";
 
 type ProductDetailProps = RouteComponentProps<{ id: string }>;
 
@@ -28,44 +28,55 @@ class ProductDetail extends React.Component<ProductDetailProps>{
     handleSubmit = async (e: any) => {
         e.preventDefault();
         const { product } = this.state;
-        let localProduct: {
-            id: number,
-            name: string,
-            price: number,
-            count: number,
-            photo: string
-        };
+        let localProduct = Array<ILocalProduct>()
 
-        const result = localStorage.getItem("product" + product.id);
+        const result = localStorage.getItem("products");
 
         if(result !== null){
             localProduct = JSON.parse(result);
-            localProduct.count += 1;
 
-            localStorage.setItem("product" + localProduct.id, JSON.stringify(localProduct));
-        }else{
-            const newProduct = {
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                count: 1,
-                photo: product.photo,
+            let productIndex = localProduct.findIndex(i => i.id === product.id);
+
+            if(productIndex !== -1){
+                localProduct[productIndex].count += 1;
+            }else{
+                const newProduct: ILocalProduct = {
+                    id: product.id,
+                    name: product.name,
+                    price: Number(product.price),
+                    count: 1,
+                    photo: product.photo
+                };
+
+                localProduct.push(newProduct);
             }
 
-            localStorage.setItem("product" + newProduct.id, JSON.stringify(newProduct));
+            localStorage.setItem("products", JSON.stringify(localProduct));
+        }else{
+            const newProduct: ILocalProduct = {
+                id: product.id,
+                name: product.name,
+                price: Number(product.price),
+                count: 1,
+                photo: product.photo
+            };
+
+            localProduct.push(newProduct);
+            localStorage.setItem("products", JSON.stringify(localProduct));
         }
     }
 
     render() {
         const { product } = this.state;
 
-        if(product.id != -1){
+        if(product.id !== -1){
             return(
                 <React.Fragment>
+
                     <SideMenu />
                     <div className="col-lg-9">
                         <div className="card mt-4">
-                            <img className="card-img-top img-fluid p-1" src={product.photo.toString()} alt="" />
+                            <img className="card-img-top p-1" src={product.photo.toString()} alt="" />
                             <div className="card-body">
                                 <h3 className="card-title">{product.name}</h3>
                                 <h4>{product.price} Kč</h4>

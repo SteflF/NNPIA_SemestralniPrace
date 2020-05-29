@@ -7,6 +7,14 @@ export interface IProductItem {
     category: string
 }
 
+export interface ILocalProduct {
+    id: number,
+    name: string,
+    price: number,
+    count: number,
+    photo: string
+}
+
 export interface IUser {
     id: number,
     firstName: string,

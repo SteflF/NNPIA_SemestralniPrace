@@ -14,6 +14,8 @@ public interface UserService {
 
     User findOne(String username);
 
+    User findByEmail(String email);
+
     User findById(int id);
 
     UserDto update(UserDto userDto);

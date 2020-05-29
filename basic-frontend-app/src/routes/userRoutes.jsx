@@ -14,6 +14,7 @@ import UserPasswordForm from "../component/user/components/userPasswordForm";
 import UserOrderDetail from "../component/user/components/userOrderDetail";
 import UserShoppingCart from "../component/user/components/userShoppingCart";
 import {PrivateRoute} from "../component/PrivateRoute";
+import CreateOrder from "../component/user/components/createOrder";
 
 const UserRoutes = () => {
     return(
@@ -34,7 +35,8 @@ const UserRoutes = () => {
                     <PrivateRoute exact path="/user/orders" component={UserOrderList} />
                     <PrivateRoute exact path="/user/order/:id" component={UserOrderDetail} />
                     <PrivateRoute exact path="/user/changePassword" component={UserPasswordForm} />
-                    <PrivateRoute exact path="/user/shoppingcart" component={UserShoppingCart} />
+                    <Route exact path="/user/shoppingcart" component={UserShoppingCart} />
+                    <Route exact path="/user/createorder" component={CreateOrder} />
                 </UserLayout>
             </Switch>
         </Router>

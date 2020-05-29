@@ -25,9 +25,8 @@ public class OrderItemController {
         return new ApiResponse<>(HttpStatus.OK.value(), "OrderItems fetched successfully", orderItemService.findByOrderId(id));
     }
 
-    //Tady nebo v OrderController?
-    @PostMapping("/orderitem/add/{id}")
-    public ApiResponse<OrderItem> addItemToOrder(@PathVariable int userId, @RequestBody OrderItemDto item){
+    @PostMapping("/orderitem")
+    public ApiResponse<OrderItem> saveOrderItem( @RequestBody OrderItemDto item){
         return new ApiResponse<>(HttpStatus.OK.value(), "OrderItem added successfully.", orderItemService.save(item));
     }
 

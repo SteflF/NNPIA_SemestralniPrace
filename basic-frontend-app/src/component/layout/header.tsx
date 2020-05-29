@@ -20,7 +20,7 @@ class Header extends React.Component{
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
-                                <NavLink className="nav-link" exact={true} to="/products">
+                                <NavLink className="nav-link" exact={true} to={{pathname: '/products', state: ''}}>
                                     Produkty
                                 </NavLink>
                             </li>

@@ -1,8 +1,10 @@
 package e.the.awesome.springreactcomboapp.service.impl;
 
 import e.the.awesome.springreactcomboapp.dao.OrderRepository;
+import e.the.awesome.springreactcomboapp.dao.UserRepository;
 import e.the.awesome.springreactcomboapp.model.Order;
 import e.the.awesome.springreactcomboapp.model.OrderDto;
+import e.the.awesome.springreactcomboapp.model.User;
 import e.the.awesome.springreactcomboapp.service.OrderService;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +15,26 @@ import java.util.Optional;
 @Service(value = "orderService")
 public class OrderServiceImpl implements OrderService {
 
+    private UserRepository userRepository;
+
     private OrderRepository orderRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository){
+    public OrderServiceImpl(UserRepository userRepository, OrderRepository orderRepository){
+        this.userRepository = userRepository;
         this.orderRepository = orderRepository;
     }
 
     @Override
-    public Order save(OrderDto order) {
-        return null;
+    public Order save(OrderDto orderDto) {
+        Order newOrder = new Order();
+        Optional<User> optionalUser = userRepository.findById(orderDto.getUserId());
+
+        newOrder.setUser(optionalUser.isPresent() ? optionalUser.get() : null);
+        newOrder.setPayment(orderDto.getPayment());
+        newOrder.setState(orderDto.getState());
+        newOrder.setDeliveryMethod(orderDto.getDeliveryMethod());
+
+        return orderRepository.save(newOrder);
     }
 
     @Override

@@ -22,7 +22,8 @@ class LoginComponent extends React.Component {
     }
 
     componentDidMount() {
-        localStorage.clear();
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userInfo");
     }
 
     login = (e) => {
@@ -38,7 +39,6 @@ class LoginComponent extends React.Component {
                     }
                 );
                 this.props.history.push('/products');
-                console.log(this.props.history);
             }else {
                 this.setState({message: res.data.message});
             }

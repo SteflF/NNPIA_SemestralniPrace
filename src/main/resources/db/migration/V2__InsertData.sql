@@ -12,11 +12,11 @@ values
 ('1', 'Pelhrimov', 'Czechia', '393 11', 'Prikopy'),
 ('2', 'Kamenice nad Lipou', 'Czechia', '940 70', 'U Lipy');
 
-insert into USER (ID, FIRST_NAME, LAST_NAME, PASSWORD, USERNAME, USER_ADDRESS_ID)
-values ('1', 'Devglan', 'Devglan', '$2a$10$eRwi8CAs6sFDuxa8MZCxp.XffiKde83N94d..clI35I0IfbEUWxWy', 'devglan', '1');
+insert into USER (ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE_NUMBER , PASSWORD, USERNAME, USER_ADDRESS_ID)
+values ('1', 'Devglan', 'Devglan', 'stefl.frantisek@gmail.com' , '123456789', '$2a$10$eRwi8CAs6sFDuxa8MZCxp.XffiKde83N94d..clI35I0IfbEUWxWy', 'devglan', '1');
 
 insert into ORDER_TABLE (ID, DELIVERY_METHOD, PAYMENT, STATE, USER_ID)
-values ('1', 'Dobirka', 'Kartou', 'Prijato', '1');
+values ('1', 'Dobirka', 'Prevodem', 'Prijato', '1');
 
 insert into ORDER_ITEM (COUNT, PRICE, ORDER_ID, PRODUCT_ID)
 values

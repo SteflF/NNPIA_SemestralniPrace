@@ -20,6 +20,8 @@ create table USER
     ID              INTEGER auto_increment primary key,
     FIRST_NAME      VARCHAR(255),
     LAST_NAME       VARCHAR(255),
+    EMAIL           VARCHAR(200),
+    PHONE_NUMBER    VARCHAR(30),
     PASSWORD        VARCHAR(255),
     USERNAME        VARCHAR(255),
     USER_ADDRESS_ID INTEGER,

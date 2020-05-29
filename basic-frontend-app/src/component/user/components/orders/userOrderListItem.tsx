@@ -13,12 +13,10 @@ class UserOrderListItem extends React.Component<IUserOrderListItemProps>{
         return(
             <tr>
                 <td>
-                    <a asp-controller="User" asp-action="OrderDetails"
-                       asp-route-id="@item.Id">Datum
-                    </a>
+                    <a href="#fuu">Datum</a>
                 </td>
                 <td>
-                    <a asp-controller="User" asp-action="OrderDetails" asp-route-id="@item.Id">{order.id}</a>
+                    <a href="#fuu">{order.id}</a>
                 </td>
                 <td>{order.state}</td>
                 <td>

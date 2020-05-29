@@ -22,7 +22,7 @@ class UserService {
     }
 
     addUser(user) {
-        return axios.post(""+USER_API_BASE_URL, user, AuthService.getAuthHeader());
+        return axios.post(USER_API_BASE_URL, user);
     }
 
     editUser(user) {
