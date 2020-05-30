@@ -1,9 +1,10 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import http from "../../../service/httpService";
-import {OrderItemController_CreateOrderItem, ProductController_GetProduct} from "../../../apiClient/routes";
+import { ProductController_GetProduct } from "../../../apiClient/routes";
 import SideMenu from "../../layout/sideMenu";
 import { ILocalProduct } from "../../../apiModels/viewModels";
+import {toast, ToastContainer} from "react-toastify";
 
 type ProductDetailProps = RouteComponentProps<{ id: string }>;
 
@@ -64,6 +65,8 @@ class ProductDetail extends React.Component<ProductDetailProps>{
             localProduct.push(newProduct);
             localStorage.setItem("products", JSON.stringify(localProduct));
         }
+
+        toast.success('Produkt pridan do kosiku!');
     }
 
     render() {
@@ -72,7 +75,7 @@ class ProductDetail extends React.Component<ProductDetailProps>{
         if(product.id !== -1){
             return(
                 <React.Fragment>
-
+                    <ToastContainer/>
                     <SideMenu />
                     <div className="col-lg-9">
                         <div className="card mt-4">

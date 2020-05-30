@@ -10,6 +10,7 @@ import {RouteComponentProps} from "react-router";
 import SideMenu from "../../layout/sideMenu";
 import SortList from "./common/sortList";
 import SortTypeEnum from "./products/sortTypeEnum";
+import {ToastContainer} from "react-toastify";
 
 type ProductListProps = RouteComponentProps;
 

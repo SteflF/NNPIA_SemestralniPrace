@@ -4,6 +4,7 @@ import UserService from "../../../service/UserService";
 import http from "../../../service/httpService";
 import { OrderController_CreateOrder, AddressController_CreateAddress, OrderItemController_CreateOrderItem } from "../../../apiClient/routes";
 import {ILocalProduct} from "../../../apiModels/viewModels";
+import { toast } from "react-toastify";
 
 class CreateOrder extends React.Component<RouteComponentProps>{
     state = {
@@ -111,7 +112,8 @@ class CreateOrder extends React.Component<RouteComponentProps>{
         }
 
         localStorage.removeItem("products");
-        this.props.history.push("/products");
+        toast.success('Objednavka uspesne vytvorena!');
+        this.props.history.push("/user/shoppingcart");
     }
 
     handleDeliveryMethodChange = (e: any) => {

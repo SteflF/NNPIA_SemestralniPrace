@@ -2,14 +2,18 @@ import * as React from "react";
 import ProductItem from "./shoppingCart/productItem";
 import {ILocalProduct} from "../../../apiModels/viewModels";
 import {NavLink, Link} from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 class UserShoppingCart extends React.Component{
+    constructor(props:any) {
+        super(props);
+    }
+
     state = {
         products: Array<ILocalProduct>()
     }
 
-    componentDidMount() {
-        //const userId = localStorage.getItem("userId");
+    componentDidMount() {;
         let result = localStorage.getItem("products");
 
         if(result !== null){
@@ -74,43 +78,46 @@ class UserShoppingCart extends React.Component{
         const {products} = this.state;
 
         return(
-            <div className="col-lg-auto mt-4 w-100">
-                <h2>Košík</h2>
-                {products.length > 0
-                    ?
-                    <div>
-                        <table className="table table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col">&nbsp;</th>
-                                <th scope="col">Zboží</th>
-                                <th scope="col">Počet ks</th>
-                                <th scope="col">Cena za kus</th>
-                                <th scope="col">Cena</th>
-                                <th scope="col">&nbsp;</th>
-                            </tr>
-                            </thead>
-                            {products.map(product => {
-                                return <ProductItem
-                                    key={product.id}
-                                    product={product}
-                                    onRemoveProductItemClick={this.handleRemoveProductItem}
-                                    onDecreaseProductCountClick={this.handleDecreaseProductCount}
-                                    onIncreaseProductCountClick={this.handleIncreaseProductCount}
-                                />
-                            })}
-                        </table>
-                        <Link className="btn btn-success float-right" title="Vytvořit objednávku" href="#fuu" to='/user/createorder'>Objednat</Link>
-                    </div>
-                    :
-                    <div className="text-center badge-dark p-4">
-                        <h1>Váš nákupní <strong>košík je prázdný</strong>.</h1>
-                        <NavLink className="btn btn-primary" exact={true} to={{pathname: '/products', state: ''}}>
-                            Zpět do obchodu
-                        </NavLink>
-                    </div>
-                }
-            </div>
+            <React.Fragment>
+                <ToastContainer />
+                <div className="col-lg-auto mt-4 w-100">
+                    <h2>Košík</h2>
+                    {products.length > 0
+                        ?
+                        <div>
+                            <table className="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">Zboží</th>
+                                    <th scope="col">Počet ks</th>
+                                    <th scope="col">Cena za kus</th>
+                                    <th scope="col">Cena</th>
+                                    <th scope="col">&nbsp;</th>
+                                </tr>
+                                </thead>
+                                {products.map(product => {
+                                    return <ProductItem
+                                        key={product.id}
+                                        product={product}
+                                        onRemoveProductItemClick={this.handleRemoveProductItem}
+                                        onDecreaseProductCountClick={this.handleDecreaseProductCount}
+                                        onIncreaseProductCountClick={this.handleIncreaseProductCount}
+                                    />
+                                })}
+                            </table>
+                            <Link className="btn btn-success float-right" title="Vytvořit objednávku" href="#fuu" to='/user/createorder'>Objednat</Link>
+                        </div>
+                        :
+                        <div className="text-center badge-dark p-4">
+                            <h1>Váš nákupní <strong>košík je prázdný</strong>.</h1>
+                            <NavLink className="btn btn-primary" exact={true} to={{pathname: '/products', state: ''}}>
+                                Zpět do obchodu
+                            </NavLink>
+                        </div>
+                    }
+                </div>
+            </React.Fragment>
         );
     }
 }

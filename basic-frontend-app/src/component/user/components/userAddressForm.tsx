@@ -3,7 +3,7 @@ import UserSideMenu from "../../layout/userSideMenu";
 import UserService from "../../../service/UserService";
 import http from "../../../service/httpService";
 import {AddressController_UpdateAddress} from "../../../apiClient/routes";
-import Typography from "@material-ui/core/Typography";
+import {toast, ToastContainer} from "react-toastify";
 
 class UserAddressForm extends React.Component{
     state = {
@@ -74,14 +74,20 @@ class UserAddressForm extends React.Component{
 
         const resultA = await http.put(AddressController_UpdateAddress(user.address.id!), updatedAddress);
         const resultU = await UserService.editUser(updatedUser);
-        this.setState({messageAddress: resultA.data.message, messageUser: resultU.data.message});
-}
+
+        if(resultA.data.status === 200 && resultU.data.status === 200){
+            toast.success('Adresa uspesne zmenena!');
+        }else{
+            toast.error('Neco se nepovedlo!');
+        }
+    }
 
     render() {
-        const {user, messageAddress, messageUser} = this.state;
+        const { user } = this.state;
 
         return(
             <React.Fragment>
+                <ToastContainer/>
                 <UserSideMenu />
                 <div className="col-lg-9 mt-4">
                     <form onSubmit={this.handleSubmit}>
@@ -119,24 +125,9 @@ class UserAddressForm extends React.Component{
                         </div>
                         <input className="btn btn-success mt-2 float-left" type="submit" value="Uložit"/>
                     </form>
-                    <Typography variant="h6" style={styles.notification}>{messageUser}</Typography>
-                    <Typography variant="h6" style={styles.notification}>{messageAddress}</Typography>
                 </div>
             </React.Fragment>
         )
-    }
-}
-
-const styles= {
-    center :{
-        display: 'flex',
-        justifyContent: 'center'
-
-    },
-    notification: {
-        display: 'flex',
-        justifyContent: 'center',
-        color: '#dc3545'
     }
 }
 
