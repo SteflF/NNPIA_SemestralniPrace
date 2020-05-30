@@ -5,7 +5,7 @@ class UserSideMenu extends React.Component{
     render() {
         return (
             <div className="col-lg-3">
-                <h1 className="my-4">Nastaveni</h1>
+                <h1 className="my-4">Nastavení</h1>
                 <div className="list-group">
                     <NavLink to={'/user/address'} className="list-group-item">
                         Osobní údaje

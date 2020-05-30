@@ -24,8 +24,8 @@ class UserAddressForm extends React.Component{
     }
 
     async componentDidMount(){
-        const userId = window.localStorage.getItem("userId");
-        const address = await UserService.fetchUserById(userId);
+        const userId = localStorage.getItem("userId");
+        const address = await UserService.fetchUserById(Number(userId));
 
         this.setState({user: address.data.result});
     }
@@ -89,27 +89,27 @@ class UserAddressForm extends React.Component{
                             <div className="d-table-row mt-4">
                                 <div className="d-table-cell">
                                     <label>Jméno:&nbsp;</label>
-                                    <input className="form-control" onChange={this.handleFirstNameChange} defaultValue={user.firstName} type="text" required />
+                                    <input className="form-control" onChange={this.handleFirstNameChange} defaultValue={user.firstName} type="text" required maxLength={100} />
                                 </div>
                                 <div className="d-table-cell">
                                     <label>Příjmení:&nbsp;</label>
-                                    <input className="form-control" onChange={this.handleLastNameChange} defaultValue={user.lastName} type="text" required />
+                                    <input className="form-control" onChange={this.handleLastNameChange} defaultValue={user.lastName} type="text" required maxLength={100} />
                                 </div>
                             </div>
                             <div className="d-table-row mt-4 mb">
                                 <div className="d-table-cell">
                                     <label>Bydliště:&nbsp;</label>
-                                    <input className="form-control" onChange={this.handleCityChange} defaultValue={user.address.city} type="text" required />
+                                    <input className="form-control" onChange={this.handleCityChange} defaultValue={user.address.city} type="text" required maxLength={100} />
                                 </div>
                                 <div className="d-table-cell">
                                     <label>Ulice a č. p.:&nbsp;</label>
-                                    <input className="form-control" onChange={this.handleStreetChange} defaultValue={user.address.street} type="text" required />
+                                    <input className="form-control" onChange={this.handleStreetChange} defaultValue={user.address.street} type="text" required maxLength={100} />
                                 </div>
                             </div>
                             <div className="d-table-row">
                                 <div className="d-table-cell">
                                     <label>PSČ:&nbsp;</label>
-                                    <input className="form-control" onChange={this.handlePSCChange} defaultValue={user.address.psc} type="text" required />
+                                    <input className="form-control" onChange={this.handlePSCChange} defaultValue={user.address.psc} type="text" required maxLength={15} />
                                 </div>
                                 <div className="d-table-cell">
                                     <label>Stát:&nbsp;</label>

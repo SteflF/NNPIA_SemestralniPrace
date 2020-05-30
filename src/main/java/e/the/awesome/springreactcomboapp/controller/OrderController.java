@@ -26,7 +26,7 @@ public class OrderController {
     }
 
     @GetMapping("/orders/{id}")
-    public ApiResponse<List<Order>> getOrderByUserId(@PathVariable int id){
+    public ApiResponse<List<Order>> getOrdersByUserId(@PathVariable int id){
         return new ApiResponse<>(HttpStatus.OK.value(), "Orders fetched successfully", orderService.findByUserId(id));
     }
 

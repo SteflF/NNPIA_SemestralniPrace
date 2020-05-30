@@ -29,6 +29,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public OrderItem save(OrderItemDto orderItemDto) {
         OrderItem newOrderItem = new OrderItem();
+
         Optional<Order> order = orderRepository.findById(orderItemDto.getOrderId());
         Optional<Product> product = productRepository.findById(orderItemDto.getProductId());
 
@@ -58,14 +59,15 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public List<OrderItem> findByOrderId(int id) {
         List<OrderItem> orderItems = new ArrayList<>();
-        orderItemRepository.findAll().iterator().forEachRemaining(orderItems::add);
-
+        //orderItemRepository.findAll().iterator().forEachRemaining(orderItems::add);
+        orderItems = orderItemRepository.findByOrderId(id);
+/*
         for (OrderItem orderItem: orderItems) {
             if(orderItem.getOrder().getId() != id){
                 orderItems.remove(orderItem);
             }
         }
-
+*/
         return orderItems;
     }
 

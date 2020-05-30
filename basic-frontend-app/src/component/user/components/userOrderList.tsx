@@ -11,22 +11,26 @@ class UserOrderList extends React.Component{
     }
 
     async componentDidMount() {
-        const orders = await http.get(OrderCotroller_GetByUserId(Number(window.localStorage.getItem("userId"))));
+        const userId = localStorage.getItem("userId");
+        const orders = await http.get(OrderCotroller_GetByUserId(Number(userId)));
+        console.log(orders);
         this.setState({orders: orders.data.result});
     }
 
     render() {
-        const {orders} =this.state;
+        const { orders } =this.state;
 
         return(
             <React.Fragment>
                 <UserSideMenu />
                 <div className="col-lg-9 mt-4">
                     <h2>Objednávky</h2>
+                    {/*
                     <div className="row ml-1 mb-2">
-                        <form asp-controller="User" asp-action="Orders" method="post">
+                        <form>
                             <table>
                                 <tr>
+
                                     <td>
                                         <select className="form-control" asp-for="OrderState">
                                             <option value="">Všechny</option>
@@ -36,6 +40,7 @@ class UserOrderList extends React.Component{
                                             }
                                         </select>
                                     </td>
+
                                     <td>
                                         <input className="form-control btn btn-secondary" type="submit"
                                                value="Vyhledat objednávky"/>
@@ -44,6 +49,7 @@ class UserOrderList extends React.Component{
                             </table>
                         </form>
                     </div>
+                    */}
                     <UserOrderTable
                         orders={orders}
                     />

@@ -59,13 +59,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findByUserId(int id) {
         List<Order> orders = new ArrayList<>();
-        orderRepository.findAll().iterator().forEachRemaining(orders::add);
 
-        for (Order order: orders) {
-            if(order.getUser().getId() != id){
-                orders.remove(order);
-            }
-        }
+        orders = orderRepository.findByUserId(id);
 
         return orders;
     }

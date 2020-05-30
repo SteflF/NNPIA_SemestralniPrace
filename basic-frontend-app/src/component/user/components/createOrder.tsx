@@ -1,10 +1,11 @@
 import * as React from "react";
+import { RouteComponentProps } from 'react-router';
 import UserService from "../../../service/UserService";
 import http from "../../../service/httpService";
 import { OrderController_CreateOrder, AddressController_CreateAddress, OrderItemController_CreateOrderItem } from "../../../apiClient/routes";
 import {ILocalProduct} from "../../../apiModels/viewModels";
 
-class CreateOrder extends React.Component{
+class CreateOrder extends React.Component<RouteComponentProps>{
     state = {
         user: {
             id: '',
@@ -36,6 +37,8 @@ class CreateOrder extends React.Component{
     handleSubmit = async (e: any) => {
         e.preventDefault();
         const { user, address, deliveryMethod, paymentMethod } = this.state;
+        let localProducts = Array<ILocalProduct>();
+        const result = localStorage.getItem("products");
 
         if(user.id === ''){
             const { data: addressResult } = await http.post(AddressController_CreateAddress, address);
@@ -59,19 +62,10 @@ class CreateOrder extends React.Component{
 
             const { data: orderResult } = await http.post(OrderController_CreateOrder, newOrder);
 
-            console.log("nova obednavka: ", orderResult);
-
-            let localProducts = Array<ILocalProduct>()
-
-            const result = localStorage.getItem("products");
-
             if(result !== null){
                 localProducts = JSON.parse(result);
 
-                console.log("orderItems", localProducts);
-
-
-                const fuu = async () => {
+                const saveOrderItem = async () => {
                     for (const product of localProducts){
                         let orderItem = {
                             productId: product.id,
@@ -81,13 +75,43 @@ class CreateOrder extends React.Component{
                         };
 
                         const { data: orderItemResult } = await http.post(OrderItemController_CreateOrderItem, orderItem);
-                        console.log("orderItem: ", orderItemResult);
                     }
                 }
 
-                await fuu();
+                await saveOrderItem();
+            }
+        }else{
+            let newOrder = {
+                userId: user.id,
+                payment: paymentMethod,
+                state: 'Vytvoreno',
+                deliveryMethod: deliveryMethod
+            }
+
+            const { data: orderResult } = await http.post(OrderController_CreateOrder, newOrder);
+
+            if(result !== null){
+                localProducts = JSON.parse(result);
+
+                const saveOrderItem = async () => {
+                    for (const product of localProducts){
+                        let orderItem = {
+                            productId: product.id,
+                            orderId: orderResult.result.id,
+                            price: product.price,
+                            count: product.count
+                        };
+
+                        const { data: orderItemResult } = await http.post(OrderItemController_CreateOrderItem, orderItem);
+                    }
+                }
+
+                await saveOrderItem();
             }
         }
+
+        localStorage.removeItem("products");
+        this.props.history.push("/products");
     }
 
     handleDeliveryMethodChange = (e: any) => {
