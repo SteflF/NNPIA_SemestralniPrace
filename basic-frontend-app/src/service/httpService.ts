@@ -1,7 +1,8 @@
 import axios from "axios";
 const config = require('../config.json');
 
-axios.defaults.baseURL = config.server.apiUrl;
+//axios.defaults.baseURL = config.server.apiUrl;
+axios.defaults.baseURL = process.env.REACT_APP_URL;
 
 export default {
     get: axios.get,
