@@ -1,8 +1,8 @@
 import axios from "axios";
-const config = require('../config.json');
+//const config = require('../config.json');
 
 //axios.defaults.baseURL = config.server.apiUrl;
-axios.defaults.baseURL = process.env.REACT_APP_URL;
+axios.defaults.baseURL = process.env.REACT_APP_URL + '/api';
 
 export default {
     get: axios.get,
