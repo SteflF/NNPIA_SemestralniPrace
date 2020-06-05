@@ -5,10 +5,6 @@ import {NavLink, Link} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 class UserShoppingCart extends React.Component{
-    constructor(props:any) {
-        super(props);
-    }
-
     state = {
         products: Array<ILocalProduct>()
     }

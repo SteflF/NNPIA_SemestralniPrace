@@ -2,8 +2,8 @@ import * as React from "react";
 import { RouteComponentProps } from 'react-router';
 import UserService from "../../../service/UserService";
 import http from "../../../service/httpService";
-import { OrderController_CreateOrder, AddressController_CreateAddress, OrderItemController_CreateOrderItem } from "../../../apiClient/routes";
-import {ILocalProduct, IProductItem} from "../../../apiModels/viewModels";
+import { OrderController_CreateOrder } from "../../../apiClient/routes";
+import {ILocalProduct} from "../../../apiModels/viewModels";
 import { toast } from "react-toastify";
 
 class CreateOrder extends React.Component<RouteComponentProps>{
@@ -61,6 +61,7 @@ class CreateOrder extends React.Component<RouteComponentProps>{
 
             console.log("newOrder: ", newOrder);
             const { data: orderResult } = await http.post(OrderController_CreateOrder, newOrder);
+            console.log("result: ", orderResult);
         }
 
         localStorage.removeItem("products");

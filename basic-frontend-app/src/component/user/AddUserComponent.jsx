@@ -84,17 +84,4 @@ const style ={
 
 }
 
-const styles= {
-    center :{
-        display: 'flex',
-        justifyContent: 'center'
-
-    },
-    notification: {
-        display: 'flex',
-        justifyContent: 'center',
-        color: '#dc3545'
-    }
-}
-
 export default AddUserComponent;
