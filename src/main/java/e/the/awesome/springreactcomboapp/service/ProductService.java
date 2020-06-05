@@ -5,7 +5,7 @@ import e.the.awesome.springreactcomboapp.model.ProductDto;
 import e.the.awesome.springreactcomboapp.model.ProductPagingDto;
 
 public interface ProductService {
-    Product save(ProductDto product);
+    Product save(ProductDto newProduct);
 
     ProductPagingDto findAll(int pageNumber, int pageSize, String sortBy, Boolean sortAsc);
 
@@ -19,5 +19,5 @@ public interface ProductService {
 
     Product findByName(String productName);
 
-    ProductDto update(ProductDto productDto);
+    ProductDto update(int productId, ProductDto product);
 }

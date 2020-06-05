@@ -23,9 +23,9 @@ public class AddressController {
         return new ApiResponse<>(HttpStatus.OK.value(), "User address fetched successfully.", userAddressService.findById(id));
     }
 
-    @PutMapping("/user/address/{id}")
-    public ApiResponse<UserAddress> updateAddress(@RequestBody UserAddressDto address){
-        return new ApiResponse<>(HttpStatus.OK.value(), "Address updated successfully.", userAddressService.update(address));
+    @PutMapping("/user/address/{userId}")
+    public ApiResponse<UserAddress> updateAddress(@PathVariable int userId, @RequestBody UserAddressDto address){
+        return new ApiResponse<>(HttpStatus.OK.value(), "Address updated successfully.", userAddressService.update(userId, address));
     }
 
     @PostMapping("/user/address")

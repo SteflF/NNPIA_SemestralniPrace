@@ -27,6 +27,15 @@ class ProductListItem extends React.Component<IProductListItemProps>{
                         <Link className="btn btn-info btn-block" to={`/product/${product.id}`} style={{ textDecoration: 'none', color: "black" }}>
                             Detail
                         </Link>
+                        {localStorage.getItem("userInfo") !== null
+                        ? <Link to={{
+                                pathname: `/editproduct/${product.id}`,
+                                state: {
+                                    headingText: 'Upravit produkt',
+                                    acceptButtonText: 'Upravit'
+                                },
+                            }} className="btn btn-secondary btn-block" >Edit</Link>
+                        : null}
                     </div>
                 </div>
             </div>

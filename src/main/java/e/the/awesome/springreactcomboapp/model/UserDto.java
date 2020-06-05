@@ -1,14 +1,28 @@
 package e.the.awesome.springreactcomboapp.model;
 
+import javax.validation.constraints.NotBlank;
+
 public class UserDto {
 
     private int id;
+
+    @NotBlank(message = "firstName is mandatory")
     private String firstName;
+
+    @NotBlank(message = "lastName is mandatory")
     private String lastName;
+
+    @NotBlank(message = "email is mandatory")
     private String email;
+
     private String phoneNumber;
+
+    @NotBlank(message = "username is mandatory")
     private String username;
+
+    @NotBlank(message = "password is mandatory")
     private String password;
+
     private int userAddressId;
 
     public int getId() {

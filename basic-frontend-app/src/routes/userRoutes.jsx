@@ -15,6 +15,7 @@ import UserOrderDetail from "../component/user/components/userOrderDetail";
 import UserShoppingCart from "../component/user/components/userShoppingCart";
 import {PrivateRoute} from "../component/PrivateRoute";
 import CreateOrder from "../component/user/components/createOrder";
+import ProductForm from "../component/user/components/products/productForm";
 
 const UserRoutes = () => {
     return(
@@ -22,7 +23,7 @@ const UserRoutes = () => {
             <Switch>
                 <Route path="/" exact component={LoginComponent} />
                 <Route path="/list-user" component={ListUserComponent} />
-                <Route path="/add-user" component={AddUserComponent} />
+                <Route path="/registration" component={AddUserComponent} />
                 <Route path="/edit-user" component={EditUserComponent} />
 
                 <UserLayout>
@@ -30,6 +31,8 @@ const UserRoutes = () => {
                     <Route exact path="/products/gpu" component={ProductCategoryList} />
                     <Route exact path="/products/motherboard" component={ProductCategoryList} />
                     <Route exact path="/product/:id" component={ProductDetail} />
+                    <Route exact path="/newproduct" render={(props) => <ProductForm createProduct={true} {...props}/>} />
+                    <Route exact path="/editproduct/:id" render={(props) => <ProductForm createProduct={false} {...props}/>} />
                     <Route exact path="/products" component={ProductList} />
                     <PrivateRoute exact path="/user/address" component={UserAddressForm} />
                     <PrivateRoute exact path="/user/orders" component={UserOrderList} />

@@ -14,5 +14,5 @@ public interface UserAddressService {
 
     UserAddress findById(int id);
 
-    UserAddressDto update(UserAddressDto address);
+    UserAddressDto update(int userId, UserAddressDto address);
 }

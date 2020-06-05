@@ -10,8 +10,6 @@ import {RouteComponentProps} from "react-router";
 import SideMenu from "../../layout/sideMenu";
 import SortList from "./common/sortList";
 import SortTypeEnum from "./products/sortTypeEnum";
-import {ToastContainer} from "react-toastify";
-
 type ProductListProps = RouteComponentProps;
 
 class ProductList extends React.Component<ProductListProps>{
@@ -20,7 +18,7 @@ class ProductList extends React.Component<ProductListProps>{
             products: Array<IProductItem>(),
             count: 0,
         },
-        viewType: ViewTypeEnum.gridView,
+        viewType: ViewTypeEnum.listView,
         pageNumber: 0,
         pageSize: 3,
         sortAsc: true,
@@ -85,87 +83,6 @@ class ProductList extends React.Component<ProductListProps>{
             }
         }
     }
-
-    /*
-    filterProducts = (products: IProductItem[]): IProductItem[] => {
-        let searchTerm: string;
-        if(this.state.searchTerm !== undefined && this.state.searchTerm !== null){
-            searchTerm = this.state.searchTerm.toString().toLowerCase();
-        }
-
-        return products.filter(i => i.name.toLowerCase().includes(searchTerm) || i.description.toLowerCase().includes(searchTerm));
-    }
-
-
-    pageProducts = (products: IProductItem[]): IProductItem[] => {
-        const { currentPageIndex, pageSize } = this.state;
-
-        if (pageSize === 0) {
-            return products;
-        }
-
-        let start = (pageSize * currentPageIndex);
-        let end = (pageSize * (currentPageIndex + 1));
-
-        return products.slice(start, end);
-    }
-
-
-    sortProducts = (products: IProductItem[]): IProductItem[] => {
-        switch (this.state.sortType) {
-            case SortTypeEnum.AtoZ:
-                products.sort((a, b) => {
-                    if (a.name < b.name) {
-                        return -1;
-                    }
-                    if (a.name > b.name) {
-                        return 1;
-                    }
-                    return 0;
-                });
-                break;
-
-            case SortTypeEnum.ZtoA:
-                products.sort((a, b) => {
-                    if (a.name < b.name) {
-                        return -1;
-                    }
-                    if (a.name > b.name) {
-                        return 1;
-                    }
-                    return 0;
-                });
-                products.reverse();
-                break;
-
-            case SortTypeEnum.PriceLowest:
-                products.sort((a, b) => a.price - b.price);
-                break;
-
-            case SortTypeEnum.PriceHighest:
-                products.sort((a, b) => a.price - b.price);
-                products.reverse();
-                break;
-        }
-
-        return products;
-    }
-
-
-    getProduct = (): IProductItem[] => {
-        let products = this.state.productsPaging.products;
-
-        if(products.length !== 0){
-            if(this.state.searchTerm !== undefined && this.state.searchTerm !== null){
-                products = this.filterProducts(products);
-            }
-            //products = this.pageProducts(products);
-            //products = this.sortProducts(products);
-        }
-
-        return products;
-    }
-*/
 
     render() {
         const { viewType, pageNumber, pageSize, sortByEnum, productsPaging } = this.state;

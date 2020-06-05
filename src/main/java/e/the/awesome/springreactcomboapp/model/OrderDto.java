@@ -1,11 +1,19 @@
 package e.the.awesome.springreactcomboapp.model;
 
+import javax.validation.constraints.NotBlank;
+import java.util.List;
+
 public class OrderDto {
 
     private int id;
-    private int userId;
+    private UserDto user;
+    private List<OrderItemDto> products;
+    private UserAddressDto address;
+    @NotBlank(message = "payment is mandatory")
     private String payment;
+    @NotBlank(message = "state is mandatory")
     private String state;
+    @NotBlank(message = "deliveryMethod is mandatory")
     private String deliveryMethod;
 
     public int getId() {
@@ -16,12 +24,28 @@ public class OrderDto {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public UserDto getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(UserDto user) {
+        this.user = user;
+    }
+
+    public List<OrderItemDto> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<OrderItemDto> products) {
+        this.products = products;
+    }
+
+    public UserAddressDto getAddress() {
+        return address;
+    }
+
+    public void setAddress(UserAddressDto address) {
+        this.address = address;
     }
 
     public String getPayment() {

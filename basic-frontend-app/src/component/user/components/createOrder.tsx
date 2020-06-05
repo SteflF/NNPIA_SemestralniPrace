@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import UserService from "../../../service/UserService";
 import http from "../../../service/httpService";
 import { OrderController_CreateOrder, AddressController_CreateAddress, OrderItemController_CreateOrderItem } from "../../../apiClient/routes";
-import {ILocalProduct} from "../../../apiModels/viewModels";
+import {ILocalProduct, IProductItem} from "../../../apiModels/viewModels";
 import { toast } from "react-toastify";
 
 class CreateOrder extends React.Component<RouteComponentProps>{
@@ -41,78 +41,30 @@ class CreateOrder extends React.Component<RouteComponentProps>{
         let localProducts = Array<ILocalProduct>();
         const result = localStorage.getItem("products");
 
-        if(user.id === ''){
-            const { data: addressResult } = await http.post(AddressController_CreateAddress, address);
+        if(result !== null){
+            localProducts = JSON.parse(result);
 
-            let newUser = {
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                phoneNumber: user.phoneNumber,
-                userAddressId: addressResult.result.id
+            let newOrder = {
+                user: {
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    phoneNumber: user.phoneNumber,
+                },
+                products: localProducts,
+                address: address,
+                payment: paymentMethod,
+                state: 'Vytvoreno',
+                deliveryMethod: deliveryMethod
             };
 
-            const { data: userResult } = await UserService.addUser(newUser);
-
-            let newOrder = {
-                userId: userResult.result.id,
-                payment: paymentMethod,
-                state: 'Vytvoreno',
-                deliveryMethod: deliveryMethod
-            }
-
+            console.log("newOrder: ", newOrder);
             const { data: orderResult } = await http.post(OrderController_CreateOrder, newOrder);
-
-            if(result !== null){
-                localProducts = JSON.parse(result);
-
-                const saveOrderItem = async () => {
-                    for (const product of localProducts){
-                        let orderItem = {
-                            productId: product.id,
-                            orderId: orderResult.result.id,
-                            price: product.price,
-                            count: product.count
-                        };
-
-                        const { data: orderItemResult } = await http.post(OrderItemController_CreateOrderItem, orderItem);
-                    }
-                }
-
-                await saveOrderItem();
-            }
-        }else{
-            let newOrder = {
-                userId: user.id,
-                payment: paymentMethod,
-                state: 'Vytvoreno',
-                deliveryMethod: deliveryMethod
-            }
-
-            const { data: orderResult } = await http.post(OrderController_CreateOrder, newOrder);
-
-            if(result !== null){
-                localProducts = JSON.parse(result);
-
-                const saveOrderItem = async () => {
-                    for (const product of localProducts){
-                        let orderItem = {
-                            productId: product.id,
-                            orderId: orderResult.result.id,
-                            price: product.price,
-                            count: product.count
-                        };
-
-                        const { data: orderItemResult } = await http.post(OrderItemController_CreateOrderItem, orderItem);
-                    }
-                }
-
-                await saveOrderItem();
-            }
         }
 
         localStorage.removeItem("products");
-        toast.success('Objednavka uspesne vytvorena!');
+        toast.success('Objednávka úspěšně vytvořena!');
         this.props.history.push("/user/shoppingcart");
     }
 

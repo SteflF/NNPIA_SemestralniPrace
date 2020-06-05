@@ -5,6 +5,7 @@ import e.the.awesome.springreactcomboapp.model.Product;
 import e.the.awesome.springreactcomboapp.model.ProductDto;
 import e.the.awesome.springreactcomboapp.model.ProductPagingDto;
 import e.the.awesome.springreactcomboapp.service.ProductService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,11 +22,6 @@ public class ProductServiceImpl implements ProductService {
 
     public ProductServiceImpl(ProductRepository productRepository){
         this.productRepository = productRepository;
-    }
-
-    @Override
-    public Product save(ProductDto product) {
-        return null;
     }
 
     @Override
@@ -85,7 +81,30 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto update(ProductDto productDto) {
-        return null;
+    public Product save(ProductDto newProduct) {
+        Product product = new Product();
+
+        product.setName(newProduct.getName());
+        product.setPrice(newProduct.getPrice());
+        product.setCategory(newProduct.getCategory());
+        product.setPhoto(newProduct.getPhoto());
+        product.setDescription(newProduct.getDescription());
+
+        return productRepository.save(product);
+    }
+
+    @Override
+    public ProductDto update(int productId, ProductDto productDto) {
+        Optional<Product> product = productRepository.findById(productId);
+
+        if(product.isPresent()){
+            BeanUtils.copyProperties(productDto, product.get(), "id");
+
+            productRepository.save(product.get());
+
+            return productDto;
+        }else{
+            return null;
+        }
     }
 }

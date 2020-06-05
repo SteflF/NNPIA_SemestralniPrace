@@ -6,6 +6,7 @@ import {RouteComponentProps} from "react-router";
 import {string, number} from "prop-types";
 import http from "../../../service/httpService";
 import {OrderCotroller_GetById, OrderItemController_GetByOrderId} from "../../../apiClient/routes";
+import UserOrderDetailHeader from "./orders/userOrderDetailHeader";
 
 type UserOrderDetailProps = RouteComponentProps<{ id: string }>;
 
@@ -23,11 +24,11 @@ class UserOrderDetail extends React.Component<UserOrderDetailProps>{
 
     async componentDidMount() {
         const orderId = parseInt(this.props.match.params.id);
+
         const order = await http.get(OrderCotroller_GetById(orderId));
         const orderItems = await http.get(OrderItemController_GetByOrderId(orderId));
 
-        this.setState({order: order.data.result});
-        this.setState({orderItems: orderItems.data.result});
+        this.setState({order: order.data.result, orderItems: orderItems.data.result});
     }
 
     render() {
@@ -38,25 +39,7 @@ class UserOrderDetail extends React.Component<UserOrderDetailProps>{
                 <React.Fragment>
                     <UserSideMenu />
                     <div className="col-lg-9">
-                        <h2>Objednávka</h2>
-                        <table className="table table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col">Datum</th>
-                                <th scope="col">Číslo objednávky</th>
-                                <th scope="col">Stav objednávky</th>
-                                <th scope="col">&nbsp;</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Datum</td>
-                                <td>{order.id}</td>
-                                <td>{order.state}</td>
-                                <td></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <UserOrderDetailHeader order={{id: Number(order.id), state: order.state.toString()}}/>
 
                         <h2>Položky objednávky</h2>
                         <table className="table table-striped">

@@ -13,7 +13,7 @@ class UserOrderList extends React.Component{
     async componentDidMount() {
         const userId = localStorage.getItem("userId");
         const orders = await http.get(OrderCotroller_GetByUserId(Number(userId)));
-        console.log(orders);
+
         this.setState({orders: orders.data.result});
     }
 
@@ -25,32 +25,7 @@ class UserOrderList extends React.Component{
                 <UserSideMenu />
                 <div className="col-lg-9 mt-4">
                     <h2>Objednávky</h2>
-                    {/*
-                    <div className="row ml-1 mb-2">
-                        <form>
-                            <table>
-                                <tr>
-
-                                    <td>
-                                        <select className="form-control" asp-for="OrderState">
-                                            <option value="">Všechny</option>
-                                            @foreach (var item in Model.OrderStateViewModels)
-                                            {
-                                                <option value="@item.Id">@item.Name</option>
-                                            }
-                                        </select>
-                                    </td>
-
-                                    <td>
-                                        <input className="form-control btn btn-secondary" type="submit"
-                                               value="Vyhledat objednávky"/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                    */}
-                    <UserOrderTable
+                     <UserOrderTable
                         orders={orders}
                     />
                     {orders.length === 0

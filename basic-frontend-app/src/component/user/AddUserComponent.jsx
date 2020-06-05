@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import NavBar from "../Navbar";
 import {Helmet} from "react-helmet";
 
 class AddUserComponent extends Component{
@@ -13,11 +12,10 @@ class AddUserComponent extends Component{
         super(props);
         this.state ={
             username: '',
+            email: '',
             password: '',
             firstName: '',
             lastName: '',
-            age: '',
-            salary: '',
             message: null
         }
         this.saveUser = this.saveUser.bind(this);
@@ -25,11 +23,22 @@ class AddUserComponent extends Component{
 
     saveUser = (e) => {
         e.preventDefault();
-        let user = {username: this.state.username, password: this.state.password, firstName: this.state.firstName, lastName: this.state.lastName, age: this.state.age, salary: this.state.salary};
+        let user = {
+            username: this.state.username,
+            email: this.state.email,
+            password: this.state.password,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName
+        };
         UserService.addUser(user)
             .then(res => {
-                this.setState({message : 'User added successfully.'});
-                this.props.history.push('/list-user');
+                if(res.data.status === 200){
+                    this.setState({message : 'Registrace úspěšná!'});
+                    this.props.history.push('/');
+                }else{
+                    this.setState({message : res.data.message});
+                }
+                console.log(res);
             });
     }
 
@@ -42,24 +51,22 @@ class AddUserComponent extends Component{
                 <Helmet>
                     <title>Add user | UPCE</title>
                 </Helmet>
-                <NavBar/>
                 <Container>
-                    <Typography variant="h4" style={style}>Add User</Typography>
+                    <Typography variant="h4" style={style}>Registration</Typography>
+
                     <form style={formContainer}>
 
-                        <TextField label="USERNAME" fullWidth margin="normal" name="username" value={this.state.username} onChange={this.onChange}/>
+                        <TextField label="USERNAME" fullWidth margin="normal" name="username" defaultValue={this.state.username} onChange={this.onChange} required/>
 
-                        <TextField label="PASSWORD" type="password" fullWidth margin="normal" name="password" value={this.state.password} onChange={this.onChange}/>
+                        <TextField label="PASSWORD" type="password" fullWidth margin="normal" name="password" defaultValue={this.state.password} onChange={this.onChange} required/>
 
-                        <TextField label="FIRST NAME" fullWidth margin="normal" name="firstName" value={this.state.firstName} onChange={this.onChange}/>
+                        <TextField label="FIRST NAME" fullWidth margin="normal" name="firstName" defaultValue={this.state.firstName} onChange={this.onChange} required/>
 
-                        <TextField label="LAST NAME" fullWidth margin="normal" name="lastName" value={this.state.lastName} onChange={this.onChange}/>
+                        <TextField label="LAST NAME" fullWidth margin="normal" name="lastName" defaultValue={this.state.lastName} onChange={this.onChange} required/>
 
-                        <TextField label="AGE" type="number" fullWidth margin="normal" name="age" value={this.state.age} onChange={this.onChange}/>
+                        <TextField label="EMAIL" type="email" fullWidth margin="normal" name="email" defaultValue={this.state.email} onChange={this.onChange} required/>
 
-                        <TextField label="SALARY" type="number" fullWidth margin="normal" name="salary" value={this.state.salary} onChange={this.onChange}/>
-
-                        <Button variant="contained" color="primary" onClick={this.saveUser}>Save</Button>
+                        <Button variant="contained" color="primary" onClick={this.saveUser}>Register</Button>
                     </form>
                 </Container>
             </Fragment>
@@ -75,6 +82,19 @@ const style ={
     display: 'flex',
     justifyContent: 'center'
 
+}
+
+const styles= {
+    center :{
+        display: 'flex',
+        justifyContent: 'center'
+
+    },
+    notification: {
+        display: 'flex',
+        justifyContent: 'center',
+        color: '#dc3545'
+    }
 }
 
 export default AddUserComponent;

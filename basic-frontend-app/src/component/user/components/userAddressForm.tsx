@@ -10,14 +10,14 @@ class UserAddressForm extends React.Component{
         user: {
             id: null,
             firstName: '',
-            lastName: '',
-            address: {
-                id: null,
-                country: '',
-                city: '',
-                street: '',
-                psc: ''
-            }
+            lastName: ''
+        },
+        address: {
+            id: null,
+            country: 'Česká republika',
+            city: '',
+            street: '',
+            psc: ''
         },
         messageUser: '',
         messageAddress: ''
@@ -27,7 +27,13 @@ class UserAddressForm extends React.Component{
         const userId = localStorage.getItem("userId");
         const address = await UserService.fetchUserById(Number(userId));
 
-        this.setState({user: address.data.result});
+        console.log("prijde: ", address);
+
+        if(address.data.result.address === null){
+            this.setState({user: address.data.result});
+        }else{
+            this.setState({user: address.data.result, address: address.data.result.address});
+        }
     }
 
     handleFirstNameChange = (e: any): void => {
@@ -45,45 +51,55 @@ class UserAddressForm extends React.Component{
     }
 
     handleCityChange = (e: any): void => {
-        const user = {...this.state.user};
-        user.address.city = e.target.value;
+        const address = {...this.state.address};
+        address.city = e.target.value;
 
-        this.setState({user});
+        this.setState({address});
     }
 
     handleStreetChange = (e: any): void => {
-        const user = {...this.state.user};
-        user.address.street = e.target.value;
+        const address = {...this.state.address};
+        address.street = e.target.value;
 
-        this.setState({user});
+        this.setState({address});
     }
 
     handlePSCChange = (e: any): void => {
-        const user = {...this.state.user};
-        user.address.psc = e.target.value;
+        const address = {...this.state.address};
+        address.psc = e.target.value;
 
-        this.setState({user});
+        this.setState({address});
     }
 
     handleSubmit = async (e: any) => {
         e.preventDefault();
-        const {user} = this.state;
+        const {user, address} = this.state;
 
-        const updatedUser = {firstName: user.firstName, lastName: user.lastName};
-        const updatedAddress = user.address;
+        const updatedAddress = {
+            id: null,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            country: address.country,
+            city: address.city,
+            street: address.street,
+            psc: address.psc
+        };
 
-        const resultA = await http.put(AddressController_UpdateAddress(user.address.id!), updatedAddress);
-        const resultU = await UserService.editUser(updatedUser);
+        console.log("posilam: ", updatedAddress);
 
-        if(resultA.data.status === 200 && resultU.data.status === 200){
-            toast.success('Adresa uspesne zmenena!');
+        const result = await http.put(AddressController_UpdateAddress(user.id!), updatedAddress);
+
+        console.log("server odpoved: ", result);
+
+        if(result.data.status === 200){
+            toast.success('Údaje úspěšně změněny!');
         }else{
-            toast.error('Neco se nepovedlo!');
+            toast.error('Něco se nepovedlo!');
         }
     }
 
     render() {
-        const { user } = this.state;
+        const { user, address } = this.state;
 
         return(
             <React.Fragment>
@@ -105,21 +121,21 @@ class UserAddressForm extends React.Component{
                             <div className="d-table-row mt-4 mb">
                                 <div className="d-table-cell">
                                     <label>Bydliště:&nbsp;</label>
-                                    <input className="form-control" onChange={this.handleCityChange} defaultValue={user.address.city} type="text" required maxLength={100} />
+                                    <input className="form-control" onChange={this.handleCityChange} defaultValue={address.city} type="text" required />
                                 </div>
                                 <div className="d-table-cell">
                                     <label>Ulice a č. p.:&nbsp;</label>
-                                    <input className="form-control" onChange={this.handleStreetChange} defaultValue={user.address.street} type="text" required maxLength={100} />
+                                    <input className="form-control" onChange={this.handleStreetChange} defaultValue={address.street} type="text" required />
                                 </div>
                             </div>
                             <div className="d-table-row">
                                 <div className="d-table-cell">
                                     <label>PSČ:&nbsp;</label>
-                                    <input className="form-control" onChange={this.handlePSCChange} defaultValue={user.address.psc} type="text" required maxLength={15} />
+                                    <input className="form-control" onChange={this.handlePSCChange} defaultValue={address.psc} type="text" required />
                                 </div>
                                 <div className="d-table-cell">
                                     <label>Stát:&nbsp;</label>
-                                    <input className="form-control" defaultValue={user.address.country} readOnly/>
+                                    <input className="form-control" defaultValue={address.country} readOnly/>
                                 </div>
                             </div>
                         </div>

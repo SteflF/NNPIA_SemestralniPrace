@@ -2,6 +2,7 @@ package e.the.awesome.springreactcomboapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "user")
@@ -12,22 +13,27 @@ public class User {
     private int id;
 
     @Column
+    @NotBlank(message = "firstName is mandatory")
     private String firstName;
 
     @Column
+    @NotBlank(message = "lastName is mandatory")
     private String lastName;
 
     @Column
+    @NotBlank(message = "email is mandatory")
     private String email;
 
     @Column
     private String phoneNumber;
 
     @Column
+    @NotBlank(message = "username is mandatory")
     private String username;
 
     @Column
     @JsonIgnore
+    @NotBlank(message = "password is mandatory")
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)

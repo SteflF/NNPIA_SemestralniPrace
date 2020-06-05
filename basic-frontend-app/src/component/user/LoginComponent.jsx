@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container';
 import AuthService from '../../service/AuthService';
 import {Helmet} from "react-helmet";
 import UserService from "../../service/UserService";
+import {Link} from "react-router-dom";
 
 class LoginComponent extends React.Component {
 
@@ -24,6 +25,7 @@ class LoginComponent extends React.Component {
     componentDidMount() {
         localStorage.removeItem("userId");
         localStorage.removeItem("userInfo");
+        console.log("state props: ", this.props);
     }
 
     login = (e) => {
@@ -70,12 +72,12 @@ class LoginComponent extends React.Component {
                         <TextField type="password" label="PASSWORD" fullWidth margin="normal" name="password" value={this.state.password} onChange={this.onChange}/>
 
                         <Button variant="contained" color="secondary" onClick={this.login}>Login</Button>
+                        <Link className="btn btn-secondary ml-1" to="/registration">Registration</Link>
                     </form>
                 </Container>
             </React.Fragment>
         )
     }
-
 }
 
 const styles= {

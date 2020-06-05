@@ -52,14 +52,14 @@ public class ProductController {
         return new ApiResponse<>(HttpStatus.OK.value(), "Product fetched successfully.", productService.findById(id));
     }
 
-    @PostMapping("/product/{id}")
+    @PostMapping("/product")
     public ApiResponse<Product> createProduct(@RequestBody ProductDto product){
         return new ApiResponse<>(HttpStatus.OK.value(), "Product created successfully.", productService.save(product));
     }
 
     @PutMapping("/product/{id}")
-    public ApiResponse<ProductDto> editProduct(@RequestBody ProductDto product){
-        return new ApiResponse<>(HttpStatus.OK.value(), "Product edited successfully.", productService.update(product));
+    public ApiResponse<ProductDto> editProduct(@PathVariable int id, @RequestBody ProductDto product){
+        return new ApiResponse<>(HttpStatus.OK.value(), "Product edited successfully.", productService.update(id, product));
     }
 
     @DeleteMapping("/product/{id}")
