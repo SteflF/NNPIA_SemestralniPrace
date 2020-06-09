@@ -10,7 +10,7 @@ import CarouselIndicators from "./common/carouselIndicators";
 import Pager from "./products/pager";
 import SideMenu from "../../layout/sideMenu";
 import SortList from "./common/sortList";
-import SortTypeEnum from "./products/sortTypeEnum";
+import ProductSortEnum from "./products/sortTypeEnum";
 
 type ProductCategoryListProps = RouteComponentProps;
 
@@ -26,7 +26,7 @@ class ProductCategoryList extends React.Component<ProductCategoryListProps>{
         pageSize: 1,
         sortAsc: true,
         sortBy: 'name',
-        sortByEnum: SortTypeEnum.NameAsc
+        sortByEnum: ProductSortEnum.NameAsc
     };
 
     async componentDidMount(){
@@ -50,18 +50,18 @@ class ProductCategoryList extends React.Component<ProductCategoryListProps>{
         this.setState({pageNumber: newPageIndex})
     }
 
-    handleSortTypeChange = (sortType: SortTypeEnum): void => {
-        if (sortType === SortTypeEnum.NameAsc || sortType === SortTypeEnum.NameDesc){
-            if (sortType === SortTypeEnum.NameAsc){
-                this.setState({sortAsc: true, sortBy: "name", sortByEnum: SortTypeEnum.NameAsc});
+    handleSortTypeChange = (sortType: number): void => {
+        if (sortType === ProductSortEnum.NameAsc || sortType === ProductSortEnum.NameDesc){
+            if (sortType === ProductSortEnum.NameAsc){
+                this.setState({sortAsc: true, sortBy: "name", sortByEnum: ProductSortEnum.NameAsc});
             }else{
-                this.setState({sortAsc: false, sortBy: "name", sortByEnum: SortTypeEnum.NameDesc});
+                this.setState({sortAsc: false, sortBy: "name", sortByEnum: ProductSortEnum.NameDesc});
             }
         }else{
-            if (sortType === SortTypeEnum.PriceAsc){
-                this.setState({sortAsc: true, sortBy: "price", sortByEnum: SortTypeEnum.PriceAsc});
+            if (sortType === ProductSortEnum.PriceAsc){
+                this.setState({sortAsc: true, sortBy: "price", sortByEnum: ProductSortEnum.PriceAsc});
             }else{
-                this.setState({sortAsc: false, sortBy: "price", sortByEnum: SortTypeEnum.PriceDesc});
+                this.setState({sortAsc: false, sortBy: "price", sortByEnum: ProductSortEnum.PriceDesc});
             }
         }
     }
@@ -75,6 +75,7 @@ class ProductCategoryList extends React.Component<ProductCategoryListProps>{
                 <div className="col-lg-9">
                     <CarouselIndicators />
                     <SortList
+                        sortEnum={ProductSortEnum}
                         sortBy={sortByEnum}
                         onSortTypeChange={this.handleSortTypeChange}
                     />

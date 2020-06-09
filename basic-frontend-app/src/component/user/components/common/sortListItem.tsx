@@ -1,21 +1,22 @@
 import * as React from "react";
-import SortTypeEnum from "../products/sortTypeEnum";
 
 interface ISortListItem {
-    sortName: SortTypeEnum
-    onSortTypeChange(sortType: SortTypeEnum): void
+    sortIndex: number
+    sortName: string
+    sortBy: number
+    onSortTypeChange(sortType: any): void
 }
 
 class SortListItem extends React.Component<ISortListItem>{
 
-    handleSortTypeChange = (sortType: SortTypeEnum, e: React.MouseEvent<HTMLAnchorElement>): void => {
+    handleSortTypeChange = (sortIndex: number, e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
 
-        this.props.onSortTypeChange(sortType);
+        this.props.onSortTypeChange(sortIndex);
     }
 
-    getButtonClass = (sortBy: SortTypeEnum):string => {
-        if(this.props.sortName === sortBy){
+    getButtonClass = (sortIndex: number):string => {
+        if(this.props.sortBy === sortIndex){
             return "list-group-item list-group-item-secondary btn btn-secondary active";
         }
         else{
@@ -24,10 +25,9 @@ class SortListItem extends React.Component<ISortListItem>{
     }
 
     render() {
-        const { sortName } = this.props;
-
+        const { sortIndex, sortName } = this.props;
         return (
-            <a className={this.getButtonClass(SortTypeEnum.PriceAsc)} href="fuu" onClick={(e) => this.handleSortTypeChange(SortTypeEnum.PriceAsc, e)}>{sortName}</a>
+            <a className={this.getButtonClass(sortIndex)} href="#fuu" onClick={(e) => this.handleSortTypeChange(sortIndex, e)}>{sortName}</a>
         );
     }
 }

@@ -6,15 +6,30 @@ import java.util.List;
 public class OrderDto {
 
     private int id;
+
     private UserDto user;
+
     private List<OrderItemDto> products;
+
     private UserAddressDto address;
+
     @NotBlank(message = "payment is mandatory")
     private String payment;
+
     @NotBlank(message = "state is mandatory")
     private String state;
+
     @NotBlank(message = "deliveryMethod is mandatory")
     private String deliveryMethod;
+
+    public OrderDto(){}
+
+    public OrderDto(int id, String payment, String state, String deliveryMethod) {
+        this.id = id;
+        this.payment = payment;
+        this.state = state;
+        this.deliveryMethod = deliveryMethod;
+    }
 
     public int getId() {
         return id;

@@ -148,21 +148,21 @@ class CreateOrder extends React.Component<RouteComponentProps>{
                         <div className="d-table-row mt-4">
                             <div className="d-table-cell">
                                 <label>Jméno:&nbsp;</label>
-                                <input className="form-control" type="text" required={true} value={user.firstName} onChange={(e) => this.handleFirstNameChange(e)} />
+                                <input className="form-control" type="text" required={true} value={user.firstName || ""} onChange={(e) => this.handleFirstNameChange(e)} />
                             </div>
                             <div className="d-table-cell">
                                 <label>Příjmení:&nbsp;</label>
-                                <input className="form-control" type="text" required={true} value={user.lastName} onChange={(e) => this.handleLastNameChange(e)} />
+                                <input className="form-control" type="text" required={true} value={user.lastName || ""} onChange={(e) => this.handleLastNameChange(e)} />
                             </div>
                         </div>
                         <div className="d-table-row">
                             <div className="d-table-cell">
                                 <label>Telefon:&nbsp;</label>
-                                <input className="form-control" type="tel" pattern="^(\+420)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$" required={true} value={user.phoneNumber} onChange={(e) => this.handlePhoneNumberChange(e)} />
+                                <input className="form-control" type="tel" pattern="^(\+420)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$" required={true} value={user.phoneNumber || ""} onChange={(e) => this.handlePhoneNumberChange(e)} />
                             </div>
                             <div className="d-table-cell">
                                 <label>Email:&nbsp;</label>
-                                <input className="form-control" type="email" required={true} value={user.email} onChange={(e) => this.handleEmailChange(e)} />
+                                <input className="form-control" type="email" required={true} value={user.email || ""} onChange={(e) => this.handleEmailChange(e)} />
                             </div>
                         </div>
                     </div>
@@ -171,17 +171,17 @@ class CreateOrder extends React.Component<RouteComponentProps>{
                         <div className="d-table-row mt-4">
                             <div className="d-table-cell">
                                 <label>Město:&nbsp;</label>
-                                <input className="form-control" type="text" required={true} value={address.city} onChange={(e) => this.handleCityChange(e)} />
+                                <input className="form-control" type="text" required={true} value={address.city || ""} onChange={(e) => this.handleCityChange(e)} />
                             </div>
                             <div className="d-table-cell">
                                 <label>Ulice:&nbsp;</label>
-                                <input className="form-control" type="text" required={true} value={address.street} onChange={(e) => this.handleStreetChange(e)} />
+                                <input className="form-control" type="text" required={true} value={address.street || ""} onChange={(e) => this.handleStreetChange(e)} />
                             </div>
                         </div>
                         <div className="d-table-row">
                             <div className="d-table-cell">
                                 <label>PSČ:&nbsp;</label>
-                                <input className="form-control" type="text" required={true} value={address.psc} onChange={(e) => this.handlePSCChange(e)} />
+                                <input className="form-control" type="text" required={true} value={address.psc || ""} onChange={(e) => this.handlePSCChange(e)} />
                             </div>
                             <div className="d-table-cell">
                                 <label>Stát:&nbsp;</label>

@@ -1,8 +1,8 @@
-enum SortTypeEnum {
+enum ProductSortEnum {
     PriceAsc,
     PriceDesc,
     NameAsc,
     NameDesc
 }
 
-export default SortTypeEnum;
+export default ProductSortEnum;

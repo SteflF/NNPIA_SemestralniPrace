@@ -27,8 +27,6 @@ class UserAddressForm extends React.Component{
         const userId = localStorage.getItem("userId");
         const address = await UserService.fetchUserById(Number(userId));
 
-        console.log("prijde: ", address);
-
         if(address.data.result.address === null){
             this.setState({user: address.data.result});
         }else{

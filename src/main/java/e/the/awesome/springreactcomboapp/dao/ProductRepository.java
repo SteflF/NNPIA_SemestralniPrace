@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends PagingAndSortingRepository<Product, Integer> {
-    Product findByName(String name);
-
     Page<Product> findByCategoryStartsWithIgnoreCase(@Param("category") String category, Pageable pageable);
 
     Page<Product> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(@Param("name") String name, @Param("description") String description, Pageable pageable);

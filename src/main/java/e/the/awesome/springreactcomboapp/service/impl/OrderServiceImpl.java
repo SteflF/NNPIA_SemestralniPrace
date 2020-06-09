@@ -3,11 +3,16 @@ package e.the.awesome.springreactcomboapp.service.impl;
 import e.the.awesome.springreactcomboapp.dao.*;
 import e.the.awesome.springreactcomboapp.model.*;
 import e.the.awesome.springreactcomboapp.service.OrderService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service(value = "orderService")
 public class OrderServiceImpl implements OrderService {
@@ -103,7 +108,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findByUserId(int id) {
-        return orderRepository.findByUserId(id);
+    public OrderPagingDto findByUserId(int id, int pageNumber, int pageSize, String sortBy, boolean sortAsc) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize, sortAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy);
+
+        Page<Order> pagedOrders = orderRepository.findByUserId(id, paging);
+
+        if(pagedOrders.hasContent()){
+            return new OrderPagingDto(pagedOrders.getContent().stream().map(i -> new OrderDto(i.getId(), i.getPayment(), i.getState(), i.getDeliveryMethod())).collect(Collectors.toList()), (int) pagedOrders.getTotalElements());
+        }else{
+            return new OrderPagingDto();
+        }
     }
 }

@@ -1,35 +1,23 @@
 import * as React from "react";
-import SortTypeEnum from "../products/sortTypeEnum";
+import SortListItem from "./sortListItem";
 
 interface ISortListProps {
-    sortBy: SortTypeEnum
-    onSortTypeChange(sortType: SortTypeEnum): void
+    sortEnum: any
+    sortBy: number
+    onSortTypeChange(sortIndex: number): void
 }
 
 class SortList extends React.Component<ISortListProps>{
-
-    handleSortTypeChange = (sortType: SortTypeEnum, e: React.MouseEvent<HTMLAnchorElement>): void => {
-        e.preventDefault();
-
-        this.props.onSortTypeChange(sortType);
-    }
-
-    getButtonClass = (sortBy: SortTypeEnum):string => {
-        if(this.props.sortBy === sortBy){
-            return "list-group-item list-group-item-secondary btn btn-secondary active";
-        }
-        else{
-            return "list-group-item list-group-item-secondary btn btn-secondary";
-        }
-    }
-
     render() {
+        const { sortEnum, sortBy, onSortTypeChange } = this.props;
+
         return(
             <ul className="list-group list-group-horizontal my-4 w-100 bg-dark">
-                <a className={this.getButtonClass(SortTypeEnum.PriceAsc)} href="fuu" onClick={(e) => this.handleSortTypeChange(SortTypeEnum.PriceAsc, e)}>Nejlevnější</a>
-                <a className={this.getButtonClass(SortTypeEnum.PriceDesc)} href="fuu" onClick={(e) => this.handleSortTypeChange(SortTypeEnum.PriceDesc, e)}>Nejdražší</a>
-                <a className={this.getButtonClass(SortTypeEnum.NameAsc)} href="fuu" onClick={(e) => this.handleSortTypeChange(SortTypeEnum.NameAsc, e)}>A-Z</a>
-                <a className={this.getButtonClass(SortTypeEnum.NameDesc)} href="fuu" onClick={(e) => this.handleSortTypeChange(SortTypeEnum.NameDesc, e)}>Z-A</a>
+                {
+                    Object.keys(sortEnum).filter(key => !isNaN(Number(sortEnum[key]))).map(function (item, index) {
+                        return <SortListItem key={index} sortIndex={index} sortName={item} sortBy={sortBy} onSortTypeChange={onSortTypeChange} />
+                    })
+                }
             </ul>
         );
     }

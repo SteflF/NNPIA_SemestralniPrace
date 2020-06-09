@@ -48,8 +48,9 @@ class ProductForm extends React.Component<ProductFormProps & IProductFormProps>{
 
             if(result.data.result !== null){
                 toast.success('Produkt úspěšně vytvořen!');
+                this.props.history.push('/products');
             }else{
-                toast.error('Něco se nepovedlo!');
+                toast.error('Something somewhere went wrong!');
             }
         }else{
             const result = await http.put(ProductController_EditProduct(Number(this.state.product.id)), this.state.product);
@@ -57,7 +58,7 @@ class ProductForm extends React.Component<ProductFormProps & IProductFormProps>{
             if(result.data.result !== null){
                 toast.success('Produkt úspěšně upraven!');
             }else{
-                toast.error('Něco se nepovedlo!');
+                toast.error('Something somewhere went wrong!');
             }
         }
     }
