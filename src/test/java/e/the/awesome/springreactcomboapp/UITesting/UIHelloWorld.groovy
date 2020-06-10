@@ -1,4 +1,4 @@
-package e.the.awesome.springreactcomboapp
+package e.the.awesome.springreactcomboapp.UITesting
 
 import geb.Browser
 import org.junit.jupiter.api.Test
@@ -11,7 +11,7 @@ class UIHelloWorld {
   @Test
   void testUpce() {
 
-    System.setProperty("webdriver.gecko.driver", "C:\\geckodriver\\geckodriver.exe")
+    System.setProperty("webdriver.gecko.driver", "src\\test\\resources\\geckodriver.exe")
 
     Browser.drive {
       go 'https://www.upce.cz'

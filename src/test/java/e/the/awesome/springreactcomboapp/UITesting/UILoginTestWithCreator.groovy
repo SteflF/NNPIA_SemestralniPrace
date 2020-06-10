@@ -1,6 +1,7 @@
-package e.the.awesome.springreactcomboapp
+package e.the.awesome.springreactcomboapp.UITesting
 
-import e.the.awesome.springreactcomboapp.model.User
+import e.the.awesome.springreactcomboapp.Creator
+import e.the.awesome.springreactcomboapp.model.Product
 import geb.Browser
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By
@@ -9,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
+//NEFUNGUJE ZE PRY SPATNE PRIHLASOVACI UDAJE
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
@@ -20,12 +22,12 @@ class UILoginTestWithCreator {
   @Test
   void loginTest() {
 
-    System.setProperty("webdriver.gecko.driver", "C:\\geckodriver\\geckodriver.exe")
+    System.setProperty("webdriver.gecko.driver", "src\\test\\resources\\geckodriver.exe")
 
-    creator.saveEntity(new User(age: 10,firstName: "Marek"));
+    creator.saveEntity(new Product(name: "A produkt", price: new BigDecimal(1800), category: "GPU", photo: "https://picsum.photos/200", description: "Jednoduchy popis"));
 
     Browser.drive {
-      go 'http://localhost:8080/'
+      go 'http://localhost:3000/'
       assert title == "Login | UPCE"
 
       // a) typing text into input using GEB jQuery-like API
@@ -37,10 +39,10 @@ class UILoginTestWithCreator {
       driver.findElement(By.xpath("//button[*[contains(text(),'Login')]]")).click()
 
       WebDriverWait wait = new WebDriverWait(driver, 10);
-      wait.until(ExpectedConditions.titleIs("List user | UPCE"))
+      wait.until(ExpectedConditions.titleIs("Products"))
 
-      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='User Details']")))
-      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[text()='Marek']")))
+      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Simple Shop']")))
+      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='A produkt']")))
 
     }
   }

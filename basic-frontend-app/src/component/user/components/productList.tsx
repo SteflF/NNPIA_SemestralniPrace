@@ -10,6 +10,7 @@ import {RouteComponentProps} from "react-router";
 import SideMenu from "../../layout/sideMenu";
 import SortList from "./common/sortList";
 import ProductSortEnum from "./products/sortTypeEnum";
+import {Helmet} from "react-helmet";
 
 type ProductListProps = RouteComponentProps;
 
@@ -89,6 +90,9 @@ class ProductList extends React.Component<ProductListProps>{
 
         return(
             <React.Fragment>
+                <Helmet>
+                    <title>Products</title>
+                </Helmet>
                 <SideMenu />
                 <div className="col-lg-9">
                     <CarouselIndicators />

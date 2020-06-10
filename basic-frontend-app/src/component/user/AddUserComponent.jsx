@@ -54,9 +54,9 @@ class AddUserComponent extends Component{
                 <Container>
                     <Typography variant="h4" style={style}>Registration</Typography>
 
-                    <form style={formContainer}>
+                    <form style={formContainer} onSubmit={this.saveUser}>
 
-                        <TextField label="USERNAME" fullWidth margin="normal" name="username" defaultValue={this.state.username} onChange={this.onChange} required/>
+                        <TextField label="USERNAME" fullWidth margin="normal" name="username" value={this.state.username} onChange={this.onChange} required/>
 
                         <TextField label="PASSWORD" type="password" fullWidth margin="normal" name="password" defaultValue={this.state.password} onChange={this.onChange} required/>
 
@@ -66,7 +66,7 @@ class AddUserComponent extends Component{
 
                         <TextField label="EMAIL" type="email" fullWidth margin="normal" name="email" defaultValue={this.state.email} onChange={this.onChange} required/>
 
-                        <Button variant="contained" color="primary" onClick={this.saveUser}>Register</Button>
+                        <Button type={"submit"} variant="contained" color="primary" >Register</Button>
                     </form>
                 </Container>
             </Fragment>
