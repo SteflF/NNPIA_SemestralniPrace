@@ -32,6 +32,15 @@ class UIRegisterUser{
 
             WebDriverWait wait = new WebDriverWait(driver, 10)
             wait.until(ExpectedConditions.titleIs("Login | UPCE"))
+
+            $("input[name='username']").value("testUser")
+
+            // a) typing text into input using core WebDriver API
+            driver.findElement(By.name("password")).sendKeys("testUser")
+
+            driver.findElement(By.xpath("//button[*[contains(text(),'Login')]]")).click()
+
+            wait.until(ExpectedConditions.titleIs("Products"))
         }
     }
 }

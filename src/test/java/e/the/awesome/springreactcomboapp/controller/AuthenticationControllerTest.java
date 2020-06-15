@@ -2,6 +2,7 @@ package e.the.awesome.springreactcomboapp.controller;
 
 import e.the.awesome.springreactcomboapp.Creator;
 import e.the.awesome.springreactcomboapp.SpringReactComboAppApplication;
+import e.the.awesome.springreactcomboapp.dao.UserRepository;
 import e.the.awesome.springreactcomboapp.model.ApiResponse;
 import e.the.awesome.springreactcomboapp.model.AuthToken;
 import e.the.awesome.springreactcomboapp.model.LoginUser;
@@ -14,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.hamcrest.Matchers.is;
 
-//NEFUNGUJE
+//FUNGUJE
 @SpringBootTest(classes = {SpringReactComboAppApplication.class})
 public class AuthenticationControllerTest {
 
@@ -22,17 +23,14 @@ public class AuthenticationControllerTest {
     private AuthenticationController authenticationController;
 
     @Autowired
-    private Creator creator;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private UserRepository userRepository;
 
     @Test
     void loginTest(){
-        User user = new User();
-        user.setUsername("testUser");
-        user.setPassword(bCryptPasswordEncoder.encode("password"));
-        creator.saveEntity(user);
+        userRepository.save(new User("jmeno", "prijmeni", "spam@spam.com", "","testUser", bCryptPasswordEncoder.encode("password"),null));
 
         LoginUser loginUser = new LoginUser();
         loginUser.setUsername("testUser");
